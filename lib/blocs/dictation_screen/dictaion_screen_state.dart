@@ -1,7 +1,7 @@
 import 'package:YOURDRS_FlutterAPP/blocs/base/base_bloc_state.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 
-class RecorderBlocState extends BaseBlocState{
+class RecorderBlocState{
 FlutterAudioRecorder recorder;
 Recording current;
 RecordingStatus currentStatus;

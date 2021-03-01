@@ -1,3 +1,4 @@
+import 'package:YOURDRS_FlutterAPP/ui/patient_details/audio_recording.dart';
 import 'package:YOURDRS_FlutterAPP/ui/patient_details/patient_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,10 +32,12 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BlocProvider<RecorderBloc>(
-        create: (context) => RecorderBloc(),
-        child: PatientDetails(),
-      ),
+      home:
+      // BlocProvider<RecorderBloc>(
+      //   create: (context) => RecorderBloc(),
+      //   child:
+        PatientDetails(),
+      // ),
     );
   }
 }

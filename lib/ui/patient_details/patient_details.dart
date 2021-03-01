@@ -90,6 +90,10 @@ class _PatientDetailsState extends State<PatientDetails> {
                         FlatButton(
                           padding: EdgeInsets.all(0),
                           onPressed: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) => PlayIcon(),),
+                            // );
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
