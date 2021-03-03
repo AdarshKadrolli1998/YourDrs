@@ -1,17 +1,48 @@
 import 'package:YOURDRS_FlutterAPP/blocs/base/base_bloc_event.dart';
+import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 
-abstract class RecordingEvent{}
+abstract class AudioBlocEvent extends BaseBlocEvent {}
 
-//abstract class to find out which Event was occurred
+class InitRecord extends AudioBlocEvent {
+  @override
+  List<Object> get props => [];
+}
 
-class InitEvent extends RecordingEvent{}
+class StartRecord extends AudioBlocEvent {
+  @override
+  List<Object> get props => [];
+}
 
-class StartEvent extends RecordingEvent{}
+class TimerTicked extends AudioBlocEvent {
+  final Recording recording;
 
-class ResumeEvent extends RecordingEvent{}
+  TimerTicked(this.recording);
 
-class PauseEvent extends RecordingEvent{}
+  @override
+  List<Object> get props => [this.recording];
+}
 
-class ResetEvent extends RecordingEvent{}
+class PauseRecord extends AudioBlocEvent {
+  @override
+  List<Object> get props => [];
+}
 
-// class StopEvent extends RecordingEvent{}
+class ResumeRecord extends AudioBlocEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class StopRecord extends AudioBlocEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class DeleteRecord extends AudioBlocEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class SaveRecord extends AudioBlocEvent {
+  @override
+  List<Object> get props => [];
+}
