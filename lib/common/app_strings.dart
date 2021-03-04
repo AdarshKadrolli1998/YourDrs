@@ -13,4 +13,5 @@ class AppStrings {
   static const photoLib = "photo library";
   static const dictationType= "Dictation type";
   static const patientNameAppBar = "Kevin Peterson";
+  static const textDictation = "Dictation";
 }

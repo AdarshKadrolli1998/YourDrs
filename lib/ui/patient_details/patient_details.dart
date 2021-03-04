@@ -1,12 +1,14 @@
-import 'package:YOURDRS_FlutterAPP/blocs/dictation_screen/dictation_screen_bloc.dart';
+import 'package:YOURDRS_FlutterAPP/blocs/dictation_screen/audio_dictation_bloc.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
+import 'package:YOURDRS_FlutterAPP/widget/buttons/dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import 'audio_recording.dart';
+import 'audio_dictation.dart';
+import 'dictation_type.dart';
 
 class PatientDetails extends StatefulWidget {
   @override
@@ -24,6 +26,8 @@ class _PatientDetailsState extends State<PatientDetails> {
   ];
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -92,48 +96,46 @@ class _PatientDetailsState extends State<PatientDetails> {
                     FlatButton(
                       padding: EdgeInsets.all(0),
                       onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Card(
-                                child: Container(
-                              height: 310,
-                              child: BlocProvider<AudioBloc>(
-                                create: (context) => AudioBloc(),
-                                child: AudioRecorderPopup(),
-                              ),
-                            ));
-                          },
-                        );
                         Alert(
                           context: context,
                           title: "Select a Dictation Type",
-                          content: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: CustomizedColors.alertColor),
-                              margin: EdgeInsets.only(top: 10),
-                              width: 230,
-                              height: 50,
+                          content:  Container(
+                              color: CustomizedColors.alertColor,
+                              height: height * 0.09,
+                              width: width * 0.65,
                               child: FormField<String>(
                                 builder: (FormFieldState<String> state) {
-                                  return DropdownButtonHideUnderline(
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      hint: Text(
-                                        "Dictation Type",
-                                        style: TextStyle(
-                                            color: CustomizedColors.textColor),
-                                      ),
+                                  return InputDecorator(
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(5.0),)),
+                                    isEmpty: _currentSelectedValue == '',
+                                    child: DropDown(
                                       value: _currentSelectedValue,
-                                      isDense: true,
+                                      hint: "Dictation Type",
                                       onChanged: (String newValue) {
+                                        Navigator.pop(context);
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Card(
+                                                child: Container(
+                                                  height: 312,
+                                                  child: BlocProvider<AudioDictationBloc>(
+                                                    create: (context) => AudioDictationBloc(),
+                                                    child: AudioDictation(),
+                                                  ),
+                                                )
+                                            );
+                                          },
+                                        );
                                         setState(() {
                                           _currentSelectedValue = newValue;
                                           state.didChange(newValue);
+                                          print(_currentSelectedValue);
                                         });
                                       },
-                                      items: _currencies.map((String value) {
+                                      items: _currencies.map((value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
                                           child: Text(value),
@@ -142,7 +144,8 @@ class _PatientDetailsState extends State<PatientDetails> {
                                     ),
                                   );
                                 },
-                              )),
+                              )
+                          ),
                           buttons: [
                             DialogButton(
                               color: CustomizedColors.alertCancelColor,
@@ -157,6 +160,73 @@ class _PatientDetailsState extends State<PatientDetails> {
                             )
                           ],
                         ).show();
+                        // Alert(
+                        //   context: context,
+                        //   title: "Select a Dictation Type",
+                        //   content: Container(
+                        //       decoration: BoxDecoration(
+                        //           borderRadius: BorderRadius.circular(5),
+                        //           color: CustomizedColors.alertColor),
+                        //       margin: EdgeInsets.only(top: 10),
+                        //       width: 230,
+                        //       height: 50,
+                        //       child: FormField<String>(
+                        //         builder: (FormFieldState<String> state) {
+                        //           return DropdownButtonHideUnderline(
+                        //             child: DropdownButton<String>(
+                        //               isExpanded: false,
+                        //               hint: Text(
+                        //                   "Dictation Type",
+                        //                   style: TextStyle(
+                        //                       color: CustomizedColors.textColor),textAlign: TextAlign.center,
+                        //                 ),
+                        //               value: _currentSelectedValue,
+                        //               isDense: false,
+                        //               onChanged: (String newValue) {
+                        //                 Navigator.pop(context);
+                        //                 showModalBottomSheet(
+                        //                   context: context,
+                        //                   builder: (BuildContext context) {
+                        //                     return Card(
+                        //                         child: Container(
+                        //                           height: 312,
+                        //                           child: BlocProvider<AudioDictationBloc>(
+                        //                             create: (context) => AudioDictationBloc(),
+                        //                             child: AudioDictation(),
+                        //                           ),
+                        //                         ));
+                        //                   },
+                        //                 );
+                        //                 setState(() {
+                        //                   _currentSelectedValue = newValue;
+                        //                   state.didChange(newValue);
+                        //                 });
+                        //               },
+                        //               items: _currencies.map((String value) {
+                        //                 return DropdownMenuItem<String>(
+                        //                   value: value,
+                        //                   child: Text(value),
+                        //                 );
+                        //               }).toList(),
+                        //             ),
+                        //           );
+                        //         },
+                        //       )
+                        //   ),
+                        //   buttons: [
+                        //     DialogButton(
+                        //       color: CustomizedColors.alertCancelColor,
+                        //       child: Text(
+                        //         "Cancel",
+                        //         style: TextStyle(
+                        //             color: CustomizedColors.textColor,
+                        //             fontSize: 20),
+                        //       ),
+                        //       onPressed: () => Navigator.pop(context),
+                        //       width: 120,
+                        //     )
+                        //   ],
+                        // ).show();
                       },
                       child: Container(
                         height: 60,
@@ -174,45 +244,49 @@ class _PatientDetailsState extends State<PatientDetails> {
                     FlatButton(
                       padding: EdgeInsets.all(0),
                       onPressed: () {
-                        final action = CupertinoActionSheet(
-                          actions: [
-                            CupertinoActionSheetAction(
-                              child: Row(
-                                children: [
-                                  Icon(Icons.camera_alt, color: Colors.blue),
-                                  Container(
-                                      padding: EdgeInsets.only(left: 150),
-                                      child: Text("Camera")),
-                                ],
-                              ),
-                              onPressed: () {
-                                print("Camera clicked");
-                              },
-                            ),
-                            CupertinoActionSheetAction(
-                              child: Row(
-                                children: [
-                                  Icon(Icons.photo, color: Colors.blue),
-                                  Container(
-                                      padding: EdgeInsets.only(left: 125),
-                                      child: Text("Photo Library")),
-                                ],
-                              ),
-                              onPressed: () {
-                                print("Photo Library clicked");
-                              },
-                            )
-                          ],
-                          cancelButton: CupertinoActionSheetAction(
-                            child: Text("Cancel"),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => DictationType(),),
                         );
-
-                        showCupertinoModalPopup(
-                            context: context, builder: (context) => action);
+                      //   final action = CupertinoActionSheet(
+                      //     actions: [
+                      //       CupertinoActionSheetAction(
+                      //         child: Row(
+                      //           children: [
+                      //             Icon(Icons.camera_alt, color: Colors.blue),
+                      //             Container(
+                      //                 padding: EdgeInsets.only(left: 150),
+                      //                 child: Text("Camera")),
+                      //           ],
+                      //         ),
+                      //         onPressed: () {
+                      //           print("Camera clicked");
+                      //         },
+                      //       ),
+                      //       CupertinoActionSheetAction(
+                      //         child: Row(
+                      //           children: [
+                      //             Icon(Icons.photo, color: Colors.blue),
+                      //             Container(
+                      //                 padding: EdgeInsets.only(left: 125),
+                      //                 child: Text("Photo Library")),
+                      //           ],
+                      //         ),
+                      //         onPressed: () {
+                      //           print("Photo Library clicked");
+                      //         },
+                      //       )
+                      //     ],
+                      //     cancelButton: CupertinoActionSheetAction(
+                      //       child: Text("Cancel"),
+                      //       onPressed: () {
+                      //         Navigator.pop(context);
+                      //       },
+                      //     ),
+                      //   );
+                      //
+                      //   showCupertinoModalPopup(
+                      //       context: context, builder: (context) => action);
                       },
                       child: Container(
                         height: 60,

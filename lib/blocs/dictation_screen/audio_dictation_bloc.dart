@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:YOURDRS_FlutterAPP/blocs/dictation_screen/dictation_screen_event.dart';
-import 'package:YOURDRS_FlutterAPP/blocs/dictation_screen/dictation_screen_state.dart';
+import 'package:YOURDRS_FlutterAPP/blocs/dictation_screen/audio_dictation_event.dart';
+import 'package:YOURDRS_FlutterAPP/blocs/dictation_screen/audio_dictation_state.dart';
 import 'package:YOURDRS_FlutterAPP/data/model/audio.dart';
 import 'package:YOURDRS_FlutterAPP/helper/db_helper.dart';
 import 'package:bloc/bloc.dart';
@@ -10,14 +10,14 @@ import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:path_provider/path_provider.dart';
 
 
-class AudioBloc extends Bloc<AudioBlocEvent, AudioBlocState> {
+class AudioDictationBloc extends Bloc<AudioDictationEvent, AudioDictationState> {
   FlutterAudioRecorder _recorder;
   Timer _timer;
 
-  AudioBloc() : super(AudioBlocState.initial());
+  AudioDictationBloc() : super(AudioDictationState.initial());
 
   @override
-  Stream<AudioBlocState> mapEventToState(AudioBlocEvent event,) async* {
+  Stream<AudioDictationState> mapEventToState(AudioDictationEvent event,) async* {
     if (event is InitRecord) {
       yield* _init();
     }
@@ -53,41 +53,33 @@ class AudioBloc extends Bloc<AudioBlocEvent, AudioBlocState> {
     }
   }
 
-  Stream<AudioBlocState> _init() async* {
+  /// initializing the recorder
+  Stream<AudioDictationState> _init() async* {
     try {
       yield state.copyWith(
           viewVisible: false, currentStatus: null, current: null);
-
       if (await FlutterAudioRecorder.hasPermissions) {
-        String customPath = '/flutter_audio_recorder_';
+        String customPath = '/Your_DRS_Recorder_';
         Directory appDocDirectory;
-        // io.Directory appDocDirectory = await getApplicationDocumentsDirectory();
         if (Platform.isIOS) {
           appDocDirectory = await getApplicationDocumentsDirectory();
         } else {
           appDocDirectory = await getExternalStorageDirectory();
         }
-        // can add extension like ".mp4" ".wav" ".m4a" ".aac"
+        /// can add extension like ".mp4" ".wav" ".m4a" ".aac"
         customPath = appDocDirectory.path +
             customPath +
-            DateTime
-                .now()
-                .millisecondsSinceEpoch
-                .toString() + ".mp4";
-
-        // .wav <---> AudioFormat.WAV
-        // .mp4 .m4a .aac <---> AudioFormat.AAC
-        // AudioFormat is optional, if given value, will overwrite path extension when there is conflicts.
+            DateTime.now().toString() + ".mp4";
+        /// .wav <---> AudioFormat.WAV
+        /// .mp4 .m4a .aac <---> AudioFormat.AAC
+        /// AudioFormat is optional, if given value, will overwrite path extension when there is conflicts.
         _recorder =
             FlutterAudioRecorder(customPath, audioFormat: AudioFormat.AAC);
-
         await _recorder.initialized;
-        // after initialization
+        /// after initialization
         var current = await _recorder.current(channel: 0);
         print('${current.status}');
-
-
-        // should be "Initialized", if all working fine
+        /// should be "Initialized", if all working fine
         yield state.copyWith(
           current: current,
           currentStatus: current.status,
@@ -105,30 +97,24 @@ class AudioBloc extends Bloc<AudioBlocEvent, AudioBlocState> {
     }
   }
 
-  //Start the recording
-  Stream<AudioBlocState> _start() async* {
+  /// start the recording
+  Stream<AudioDictationState> _start() async* {
     try {
       await _recorder.start();
       var recording = await _recorder.current(channel: 0);
-
       yield state.copyWith(
         viewVisible: true,
         current: recording,
         currentStatus: recording.status,
       );
-
       const tick = const Duration(milliseconds: 50);
       _timer = Timer.periodic(tick, (Timer t) async {
         if (state.currentStatus == RecordingStatus.Stopped || state.currentStatus == RecordingStatus.Paused) {
           t.cancel();
         }
-
         var current = await _recorder.current(channel: 0);
-
         add(TimerTicked(current));
       });
-
-      // yield state;
     } catch (e) {
       print(e);
       yield state.copyWith(
@@ -138,20 +124,18 @@ class AudioBloc extends Bloc<AudioBlocEvent, AudioBlocState> {
     }
   }
 
-  ///Reset the Timer
-  Stream<AudioBlocState> _reset() async* {
+  /// reset the timer and delete file
+  Stream<AudioDictationState> _reset() async* {
     try {
       _timer?.cancel();
       await _recorder.stop();
       var recording = await _recorder.current(channel: 0);
       print('${recording.status}');
-
       yield state.copyWith(
         viewVisible: false,
         current: recording,
         currentStatus: recording.status,
       );
-
       var result = await _recorder.stop();
       var res = await File(result.path).delete();
       print("Deleted $res");
@@ -164,25 +148,21 @@ class AudioBloc extends Bloc<AudioBlocEvent, AudioBlocState> {
     }
   }
 
-  //Resume the record
-  Stream<AudioBlocState> _resume() async* {
+  /// resume the recording
+  Stream<AudioDictationState> _resume() async* {
     try {
       await _recorder.resume();
       var recording = await _recorder.current(channel: 0);
-
       yield state.copyWith(
           viewVisible: true,
           currentStatus: recording.status,
           current: recording);
-
       const tick = const Duration(milliseconds: 50);
       _timer = Timer.periodic(tick, (Timer t) async {
         if (state.currentStatus == RecordingStatus.Stopped /*|| state.currentStatus == RecordingStatus.Paused*/) {
           t.cancel();
         }
-
         var current = await _recorder.current(channel: 0);
-
         add(TimerTicked(current));
       });
     } catch (e) {
@@ -191,8 +171,8 @@ class AudioBloc extends Bloc<AudioBlocEvent, AudioBlocState> {
     }
   }
 
-  //Pause the audio
-  Stream<AudioBlocState> _pause() async* {
+  /// pause the recording
+  Stream<AudioDictationState> _pause() async* {
     _timer.cancel();
     await _recorder.pause();
     var recording = await _recorder.current(channel: 0);
@@ -203,7 +183,8 @@ class AudioBloc extends Bloc<AudioBlocEvent, AudioBlocState> {
         current: recording);
   }
 
-  Stream<AudioBlocState> _stop() async* {
+  /// stop the recording
+  Stream<AudioDictationState> _stop() async* {
     _timer?.cancel();
     var result = await _recorder.stop();
     print("Stop recording: ${result.duration} ${result.path}");
