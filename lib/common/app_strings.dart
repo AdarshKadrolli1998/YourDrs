@@ -1,3 +1,5 @@
+import 'package:YOURDRS_FlutterAPP/common/app_constants.dart';
+
 class AppStrings {
   static const welcome = 'Welcome';
   static const signIn = "Signin";
@@ -17,4 +19,8 @@ class AppStrings {
   static const textMyDictation = "My Previous Dictations";
   static const textAllDictation = "All Previous Dictations";
   static const textUploaded = "Uploaded";
+}
+
+class ApiUrlConstants{
+  static const allPreviousDictations = AppConstants.dioBaseUrl + "api/Dictation/GetPreviousDictations";
 }

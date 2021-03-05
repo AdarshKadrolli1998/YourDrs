@@ -25,6 +25,7 @@ class AppConstants {
   static const apiTimeout = 30 * 1000; // 30 sec
   static const dioConnectTimeout = 30 * 1000; // 30 sec
   static const dioReceiveTimeout = 30 * 1000; // 30 sec
+  static const dioBaseUrl = "http://ydrsdevapi.yourdrs.com/";
 
   static String authToken;
 
