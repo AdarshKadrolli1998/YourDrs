@@ -28,29 +28,28 @@ class RaisedButtons extends StatelessWidget {
 
 class RaisedBtn extends StatelessWidget {
   RaisedBtn(
-      {@required this.text, @required this.onPressed, @required this.iconData});
+      {@required this.text, @required this.onPressed});
 
-  final IconData iconData;
   final String text;
   final GestureTapCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     // TODO: implement build
     return Container(
-        width: 350,
-        height: 80,
+        margin: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height / 40
+        ),
+        width: width * 0.85,
+        height: height * 0.11,
         child:RaisedButton(
             color: CustomizedColors.raisedBtnColor,
             onPressed: onPressed,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    iconData,
-                    color: CustomizedColors.materialButtonColor,
-                    size: 40,
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -62,7 +61,8 @@ class RaisedBtn extends StatelessWidget {
                       )
                     ],
                   )
-                ])
+                ]
+            )
         )
     );
   }

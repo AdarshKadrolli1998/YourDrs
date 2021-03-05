@@ -26,6 +26,7 @@ class _AudioDictationState extends State<AudioDictation> {
     super.didChangeDependencies();
     this.localFileSystem = localFileSystem ?? LocalFileSystem();
     if (mounted) {
+      /// bloc provider for init event
       BlocProvider.of<AudioDictationBloc>(context).add(InitRecord());
     }
   }
@@ -56,12 +57,14 @@ class _AudioDictationState extends State<AudioDictation> {
       },
       child: BlocBuilder<AudioDictationBloc, AudioDictationState>(
         builder: (context, state) {
-          // print('BlocBuilder $state');
           return Center(
             child: ListView(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width / 30,
+                    vertical: MediaQuery.of(context).size.height / 150
+                  ),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
@@ -71,6 +74,7 @@ class _AudioDictationState extends State<AudioDictation> {
                             Text("${_printDuration(_current?.duration)}"),
                             FlatButton(
                                 onPressed: () async {
+                                  /// bloc provider for save record event
                                   BlocProvider.of<AudioDictationBloc>(context)
                                       .add(SaveRecord());
                                 },
@@ -96,7 +100,8 @@ class _AudioDictationState extends State<AudioDictation> {
                                   visible: viewVisible,
 
                                   /// calling random wave class
-                                  child: RandomWaves()),
+                                  child: RandomWaves()
+                              ),
                             ),
                           ],
                         ),
@@ -104,12 +109,16 @@ class _AudioDictationState extends State<AudioDictation> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: MediaQuery.of(context).size.width / 30,
+                                  vertical: MediaQuery.of(context).size.height / 150
+                              ),
                               child: FlatButton(
                                 onPressed: () {
                                   switch (_currentStatus) {
                                     case RecordingStatus.Initialized:
                                       {
+                                        /// bloc provider for start record event
                                         BlocProvider.of<AudioDictationBloc>(
                                                 context)
                                             .add(StartRecord());
@@ -117,6 +126,7 @@ class _AudioDictationState extends State<AudioDictation> {
                                       }
                                     case RecordingStatus.Recording:
                                       {
+                                        /// bloc provider for pause record event
                                         BlocProvider.of<AudioDictationBloc>(
                                                 context)
                                             .add(PauseRecord());
@@ -124,6 +134,7 @@ class _AudioDictationState extends State<AudioDictation> {
                                       }
                                     case RecordingStatus.Paused:
                                       {
+                                        /// bloc provider for resume record event
                                         BlocProvider.of<AudioDictationBloc>(
                                                 context)
                                             .add(ResumeRecord());
@@ -131,6 +142,7 @@ class _AudioDictationState extends State<AudioDictation> {
                                       }
                                     case RecordingStatus.Stopped:
                                       {
+                                        /// bloc provider for init event
                                         BlocProvider.of<AudioDictationBloc>(
                                                 context)
                                             .add(InitRecord());
@@ -158,7 +170,10 @@ class _AudioDictationState extends State<AudioDictation> {
                                           children: [
                                             Container(
                                               height: height * 0.38,
-                                              padding: EdgeInsets.all(10),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: MediaQuery.of(context).size.width / 30,
+                                                  vertical: MediaQuery.of(context).size.height / 150
+                                              ),
                                               child: Column(
                                                 children: [
                                                   Icon(
@@ -246,6 +261,7 @@ class _AudioDictationState extends State<AudioDictation> {
                                   size: 45,
                                 ),
                                 onTap: () {
+                                  /// bloc provider for delete record event
                                   BlocProvider.of<AudioDictationBloc>(context)
                                       .add(DeleteRecord());
                                   print("Reset called");
@@ -266,7 +282,7 @@ class _AudioDictationState extends State<AudioDictation> {
     );
   }
 
-  /// timer format
+  /// setting timer format
   String _printDuration(Duration duration) {
     if (duration != null) {
       String twoDigits(int n) => n.toString().padLeft(2, "0");

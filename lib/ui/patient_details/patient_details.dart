@@ -1,13 +1,8 @@
-import 'package:YOURDRS_FlutterAPP/blocs/dictation_screen/audio_dictation_bloc.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
-import 'package:YOURDRS_FlutterAPP/widget/buttons/dropdown.dart';
+import 'package:YOURDRS_FlutterAPP/widget/mic_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-
-import 'audio_dictation.dart';
 import 'dictation_type.dart';
 
 class PatientDetails extends StatefulWidget {
@@ -17,17 +12,8 @@ class PatientDetails extends StatefulWidget {
 
 class _PatientDetailsState extends State<PatientDetails> {
   bool isSwitched = false;
-  var _currentSelectedValue;
-  var _currencies = [
-    "Surgery",
-    "Non-Surgery",
-    "MRI",
-    "Operative",
-  ];
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -93,154 +79,8 @@ class _PatientDetailsState extends State<PatientDetails> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FlatButton(
-                      padding: EdgeInsets.all(0),
-                      onPressed: () {
-                        Alert(
-                          context: context,
-                          title: "Select a Dictation Type",
-                          content:  Container(
-                              color: CustomizedColors.alertColor,
-                              height: height * 0.09,
-                              width: width * 0.65,
-                              child: FormField<String>(
-                                builder: (FormFieldState<String> state) {
-                                  return InputDecorator(
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(5.0),)),
-                                    isEmpty: _currentSelectedValue == '',
-                                    child: DropDown(
-                                      value: _currentSelectedValue,
-                                      hint: "Dictation Type",
-                                      onChanged: (String newValue) {
-                                        Navigator.pop(context);
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return Card(
-                                                child: Container(
-                                                  height: 312,
-                                                  child: BlocProvider<AudioDictationBloc>(
-                                                    create: (context) => AudioDictationBloc(),
-                                                    child: AudioDictation(),
-                                                  ),
-                                                )
-                                            );
-                                          },
-                                        );
-                                        setState(() {
-                                          _currentSelectedValue = newValue;
-                                          state.didChange(newValue);
-                                          print(_currentSelectedValue);
-                                        });
-                                      },
-                                      items: _currencies.map((value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  );
-                                },
-                              )
-                          ),
-                          buttons: [
-                            DialogButton(
-                              color: CustomizedColors.alertCancelColor,
-                              child: Text(
-                                "Cancel",
-                                style: TextStyle(
-                                    color: CustomizedColors.textColor,
-                                    fontSize: 20),
-                              ),
-                              onPressed: () => Navigator.pop(context),
-                              width: 120,
-                            )
-                          ],
-                        ).show();
-                        // Alert(
-                        //   context: context,
-                        //   title: "Select a Dictation Type",
-                        //   content: Container(
-                        //       decoration: BoxDecoration(
-                        //           borderRadius: BorderRadius.circular(5),
-                        //           color: CustomizedColors.alertColor),
-                        //       margin: EdgeInsets.only(top: 10),
-                        //       width: 230,
-                        //       height: 50,
-                        //       child: FormField<String>(
-                        //         builder: (FormFieldState<String> state) {
-                        //           return DropdownButtonHideUnderline(
-                        //             child: DropdownButton<String>(
-                        //               isExpanded: false,
-                        //               hint: Text(
-                        //                   "Dictation Type",
-                        //                   style: TextStyle(
-                        //                       color: CustomizedColors.textColor),textAlign: TextAlign.center,
-                        //                 ),
-                        //               value: _currentSelectedValue,
-                        //               isDense: false,
-                        //               onChanged: (String newValue) {
-                        //                 Navigator.pop(context);
-                        //                 showModalBottomSheet(
-                        //                   context: context,
-                        //                   builder: (BuildContext context) {
-                        //                     return Card(
-                        //                         child: Container(
-                        //                           height: 312,
-                        //                           child: BlocProvider<AudioDictationBloc>(
-                        //                             create: (context) => AudioDictationBloc(),
-                        //                             child: AudioDictation(),
-                        //                           ),
-                        //                         ));
-                        //                   },
-                        //                 );
-                        //                 setState(() {
-                        //                   _currentSelectedValue = newValue;
-                        //                   state.didChange(newValue);
-                        //                 });
-                        //               },
-                        //               items: _currencies.map((String value) {
-                        //                 return DropdownMenuItem<String>(
-                        //                   value: value,
-                        //                   child: Text(value),
-                        //                 );
-                        //               }).toList(),
-                        //             ),
-                        //           );
-                        //         },
-                        //       )
-                        //   ),
-                        //   buttons: [
-                        //     DialogButton(
-                        //       color: CustomizedColors.alertCancelColor,
-                        //       child: Text(
-                        //         "Cancel",
-                        //         style: TextStyle(
-                        //             color: CustomizedColors.textColor,
-                        //             fontSize: 20),
-                        //       ),
-                        //       onPressed: () => Navigator.pop(context),
-                        //       width: 120,
-                        //     )
-                        //   ],
-                        // ).show();
-                      },
-                      child: Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                            color: CustomizedColors.circleAvatarColor,
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Icon(
-                          Icons.mic,
-                          color: Colors.white,
-                          size: 40,
-                        ),
-                      ),
-                    ),
+                    /// calling the mic button widget from widget folder
+                    MicButton(),
                     FlatButton(
                       padding: EdgeInsets.all(0),
                       onPressed: () {
