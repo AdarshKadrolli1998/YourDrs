@@ -33,7 +33,7 @@ class _MicButtonState extends State<MicButton> {
           title: "Select a Dictation Type",
           content:  Container(
               color: CustomizedColors.alertColor,
-              height: height * 0.15,
+              height: height * 0.09,
               width: width * 0.65,
               child: FormField<String>(
                 builder: (FormFieldState<String> state) {

@@ -1,10 +1,10 @@
-class AllPreviousDictations {
+class MyPreviousDictations {
   Header header;
   List<AudioDictations> audioDictations;
 
-  AllPreviousDictations({this.header, this.audioDictations});
+  MyPreviousDictations({this.header, this.audioDictations});
 
-  AllPreviousDictations.fromJson(Map<String, dynamic> json) {
+  MyPreviousDictations.fromJson(Map<String, dynamic> json) {
     header =
     json['header'] != null ? new Header.fromJson(json['header']) : null;
     if (json['audioDictations'] != null) {

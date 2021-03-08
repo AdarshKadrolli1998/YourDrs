@@ -22,5 +22,7 @@ class AppStrings {
 }
 
 class ApiUrlConstants{
+  static const dictations = AppConstants.dioBaseUrl + "api/Dictation/GetAllDictations";
   static const allPreviousDictations = AppConstants.dioBaseUrl + "api/Dictation/GetPreviousDictations";
+  static const myPreviousDictations = AppConstants.dioBaseUrl + "api/Dictation/GetMyPreviousDictations";
 }
