@@ -1,6 +1,6 @@
 class MyPreviousDictations {
   Header header;
-  List<AudioDictations> audioDictations;
+  List<AudioDictations2> audioDictations;
 
   MyPreviousDictations({this.header, this.audioDictations});
 
@@ -8,9 +8,9 @@ class MyPreviousDictations {
     header =
     json['header'] != null ? new Header.fromJson(json['header']) : null;
     if (json['audioDictations'] != null) {
-      audioDictations = new List<AudioDictations>();
+      audioDictations = new List<AudioDictations2>();
       json['audioDictations'].forEach((v) {
-        audioDictations.add(new AudioDictations.fromJson(v));
+        audioDictations.add(new AudioDictations2.fromJson(v));
       });
     }
   }
@@ -50,7 +50,7 @@ class Header {
   }
 }
 
-class AudioDictations {
+class AudioDictations2 {
   Header header;
   int id;
   int dictationId;
@@ -93,7 +93,7 @@ class AudioDictations {
   String description;
   String appointmentProvider;
 
-  AudioDictations(
+  AudioDictations2(
       {this.header,
         this.id,
         this.dictationId,
@@ -136,7 +136,7 @@ class AudioDictations {
         this.description,
         this.appointmentProvider});
 
-  AudioDictations.fromJson(Map<String, dynamic> json) {
+  AudioDictations2.fromJson(Map<String, dynamic> json) {
     header =
     json['header'] != null ? new Header.fromJson(json['header']) : null;
     id = json['id'];
