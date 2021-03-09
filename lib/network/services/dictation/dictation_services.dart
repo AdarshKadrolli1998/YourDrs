@@ -1,13 +1,11 @@
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation/all_dictation_model.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation/all_previous_dictation_model.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation/my_previous_dictation_model.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/dictation/dictations_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class AllDictationService {
 
-  Future<AllDictations> getDictations() async{
+  Future<Dictations> getDictations() async{
     try {
       var endpointUrl = ApiUrlConstants.dictations;
       Map<String, dynamic> queryParams = {
@@ -24,7 +22,7 @@ class AllDictationService {
       print('response' +response.body);
 
       if (response.statusCode == 200) {
-        AllDictations allDictations = parseAllDictations(response.body);
+        Dictations allDictations = parseAllDictations(response.body);
         print('dictations-- $allDictations');
         return allDictations;
       }
@@ -33,8 +31,8 @@ class AllDictationService {
     }
   }
 
-  static AllDictations parseAllDictations(String responseBody){
-    final AllDictations allDictations = AllDictations.fromJson(json.decode(responseBody));
+  static Dictations parseAllDictations(String responseBody){
+    final Dictations allDictations = Dictations.fromJson(json.decode(responseBody));
     print(allDictations);
     return allDictations;
   }
@@ -42,7 +40,7 @@ class AllDictationService {
 
 class AllPreviousDictationService {
 
-  Future<AllPreviousDictations> getAllPreviousDictations() async{
+  Future<Dictations> getAllPreviousDictations() async{
 
     try {
       var endpointUrl = ApiUrlConstants.allPreviousDictations;
@@ -59,18 +57,18 @@ class AllPreviousDictationService {
           headers: {"Accept": "application/json"});
       print('response' +response.body);
 
-      // if (response.statusCode == 200) {
-      AllPreviousDictations allPreviousDictations = parseAllPreviousDictations(response.body);
-      print(allPreviousDictations);
-      return allPreviousDictations;
-      // }
+      if (response.statusCode == 200) {
+        Dictations allPreviousDictations = parseAllPreviousDictations(response.body);
+        print(allPreviousDictations);
+        return allPreviousDictations;
+      }
     } catch (e) {
       print(e.toString());
     }
   }
 
-  static AllPreviousDictations parseAllPreviousDictations(String responseBody){
-    final AllPreviousDictations allPreviousDictations = AllPreviousDictations.fromJson(json.decode(responseBody));
+  static Dictations parseAllPreviousDictations(String responseBody){
+    final Dictations allPreviousDictations = Dictations.fromJson(json.decode(responseBody));
     print(allPreviousDictations);
     return allPreviousDictations;
   }
@@ -78,7 +76,7 @@ class AllPreviousDictationService {
 
 class MyPreviousDictationService {
 
-  Future<MyPreviousDictations> getMyPreviousDictations() async{
+  Future<Dictations> getMyPreviousDictations() async{
 
     try {
       var endpointUrl = ApiUrlConstants.myPreviousDictations;
@@ -97,7 +95,7 @@ class MyPreviousDictationService {
       print('response' +response.body);
 
       if (response.statusCode == 200) {
-        MyPreviousDictations myPreviousDictations = parseMyPreviousDictations(response.body);
+        Dictations myPreviousDictations = parseMyPreviousDictations(response.body);
         print('dictations-- $myPreviousDictations');
         return myPreviousDictations;
       }
@@ -106,8 +104,8 @@ class MyPreviousDictationService {
     }
   }
 
-  static MyPreviousDictations parseMyPreviousDictations(String responseBody){
-    final MyPreviousDictations myPreviousDictations = MyPreviousDictations.fromJson(json.decode(responseBody));
+  static Dictations parseMyPreviousDictations(String responseBody){
+    final Dictations myPreviousDictations = Dictations.fromJson(json.decode(responseBody));
     print(myPreviousDictations);
     return myPreviousDictations;
   }

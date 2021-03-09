@@ -1,8 +1,6 @@
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation/all_dictation_model.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation/all_previous_dictation_model.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation/my_previous_dictation_model.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/dictation/dictations_model.dart';
 import 'package:YOURDRS_FlutterAPP/network/services/dictation/dictation_services.dart';
 import 'package:YOURDRS_FlutterAPP/ui/patient_details/audio_player.dart';
 import 'package:YOURDRS_FlutterAPP/widget/mic_button.dart';
@@ -10,33 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DictationsList extends StatefulWidget {
+  int type;
+  DictationsList({Key key, @required this.type}) : super(key: key);
   @override
   _DictationsListState createState() => _DictationsListState();
 }
 
 class _DictationsListState extends State<DictationsList> {
-  List data = List();
-  AllDictationService apiServices1 = AllDictationService();
-
-  // AllPreviousDictationService apiServices2 = AllPreviousDictationService();
-
-  // MyPreviousDictationService apiServices3 = MyPreviousDictationService();
-
-  void didChangeDependencies() async{
-    super.didChangeDependencies();
-
-    AllDictations allDictations = await apiServices1.getDictations();
-    // print('allDictations--> $allDictations');
-    data = allDictations.audioDictations;
-    // print(data[1].id);
-    // AllPreviousDictations allPreviousDictations = await apiServices2.getAllPreviousDictations();
-    // print('allPreviousDictations--> $allPreviousDictations');
-    //
-    // MyPreviousDictations myPreviousDictations = await apiServices3.getMyPreviousDictations();
-    // print('myPreviousDictations--> $myPreviousDictations');
-  }
   @override
   Widget build(BuildContext context) {
+    final List<DictationItem> args = ModalRoute.of(context).settings.arguments;
+    // final List<AudioDictations1> args1 = ModalRoute.of(context).settings.arguments;
+    // final List<AudioDictations2> args2 = ModalRoute.of(context).settings.arguments;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SafeArea(
@@ -52,7 +35,7 @@ class _DictationsListState extends State<DictationsList> {
             vertical: MediaQuery.of(context).size.height / 50,
           ),
           child: ListView.builder(
-            itemCount: data.length,
+            itemCount: args.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 child: Column(
@@ -83,7 +66,7 @@ class _DictationsListState extends State<DictationsList> {
                       children: [
                         Expanded(
                             child: Text(
-                              data[index].displayFileName,
+                              args[index].displayFileName,
                               style: TextStyle(fontSize: 16),
                             )),
                       ],

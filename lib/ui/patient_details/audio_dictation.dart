@@ -250,7 +250,8 @@ class _AudioDictationState extends State<AudioDictation> {
                                   Icons.cloud_upload,
                                   size: 60,
                                   color: CustomizedColors.waveColor,
-                                )),
+                                )
+                            ),
                             CircleAvatar(
                               backgroundColor:
                                   CustomizedColors.circleAvatarBgColor,

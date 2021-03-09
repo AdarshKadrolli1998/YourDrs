@@ -4,9 +4,7 @@ import 'package:YOURDRS_FlutterAPP/widget/mic_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dictation_type.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation/all_dictation_model.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation/all_previous_dictation_model.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation/my_previous_dictation_model.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/dictation/dictations_model.dart';
 import 'package:YOURDRS_FlutterAPP/network/services/dictation/dictation_services.dart';
 
 class PatientDetails extends StatefulWidget {
@@ -21,25 +19,25 @@ class _PatientDetailsState extends State<PatientDetails> {
   List allPrevDtion = List();
   List myPrevDtion = List();
 
-  void AllDtion() async{
+  AllDtion() async{
     AllDictationService apiServices1 = AllDictationService();
-    AllDictations allDictations = await apiServices1.getDictations();
+    Dictations allDictations = await apiServices1.getDictations();
     // print('allDictations--> $allDictations');
     allDtion = allDictations.audioDictations;
   }
 
-  void AllPrevDtion() async{
+  AllPrevDtion() async{
     AllPreviousDictationService apiServices2 = AllPreviousDictationService();
-    AllPreviousDictations allPreviousDictations = await apiServices2.getAllPreviousDictations();
+    Dictations allPreviousDictations = await apiServices2.getAllPreviousDictations();
     allPrevDtion = allPreviousDictations.audioDictations;
   }
 
-  void MyPrevDtion() async{
+  MyPrevDtion() async{
     MyPreviousDictationService apiServices3 = MyPreviousDictationService();
-    MyPreviousDictations myPreviousDictations = await apiServices3.getMyPreviousDictations();
+    Dictations myPreviousDictations = await apiServices3.getMyPreviousDictations();
     myPrevDtion = myPreviousDictations.audioDictations;
   }
-
+//  var data = {allDtion,}
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -111,13 +109,13 @@ class _PatientDetailsState extends State<PatientDetails> {
                         MicButton(),
                         FlatButton(
                           padding: EdgeInsets.all(0),
-                          onPressed: () {
-                            AllDtion();
-                            AllPrevDtion();
-                            MyPrevDtion();
+                          onPressed: () async {
+                            await AllDtion();
+                            await AllPrevDtion();
+                            await MyPrevDtion();
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => DictationType(),),
+                              MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
                             );
                           //   final action = CupertinoActionSheet(
                           //     actions: [

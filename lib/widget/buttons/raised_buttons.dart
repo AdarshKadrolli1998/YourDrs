@@ -28,9 +28,10 @@ class RaisedButtons extends StatelessWidget {
 
 class RaisedBtn extends StatelessWidget {
   RaisedBtn(
-      {@required this.text, @required this.onPressed});
+      {@required this.text, @required this.onPressed, @required this.count});
 
   final String text;
+  final int count;
   final GestureTapCallback onPressed;
 
   @override
@@ -47,22 +48,10 @@ class RaisedBtn extends StatelessWidget {
         child:RaisedButton(
             color: CustomizedColors.raisedBtnColor,
             onPressed: onPressed,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        text,
-                        style: TextStyle(
-                            color: CustomizedColors.materialButtonColor, fontSize: 20),
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  )
-                ]
-            )
+            child:  Text('$text ($count)',
+              style: TextStyle(
+                  color: CustomizedColors.materialButtonColor, fontSize: 20),
+              textAlign: TextAlign.center,)
         )
     );
   }

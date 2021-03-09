@@ -47,7 +47,7 @@ class AudioDictationBloc extends Bloc<AudioDictationEvent, AudioDictationState> 
     else if (event is SaveRecord) {
       add(StopRecord());
       var audioFile = await File(state.current.path).readAsBytes();
-      print('Byte converted file --- $audioFile');
+      print('Byte converted file ---' +audioFile.length.toString());
       DatabaseHelper.db.insertAudio(Audio(audioFile: audioFile));
       add(InitRecord());
     }
