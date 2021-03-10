@@ -30,20 +30,18 @@ dependencies:
   cupertino_icons: ^1.0.0
   # Date Formatter
   intl: any
-  # Image Picker
-  image_picker: ^0.6.7+17
-  file:
-  audioplayers: ^0.13.2
-  wave: ^0.0.8
+
   file_picker: ^1.13.3
   audio_wave: ^0.0.3
   path_provider: ^1.6.27
-  audioplayer: ^0.8.1
   flutter_audio_recorder: ^0.5.5
   sqflite:
   equatable:
   bloc:
   flutter_bloc:
+  fluttertoast: ^7.1.8
+  http:
+  audioplayer:
 
   #  For the display of alert in patient details screen
   rflutter_alert: ^1.0.3

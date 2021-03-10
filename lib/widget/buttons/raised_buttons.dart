@@ -26,14 +26,14 @@ class RaisedButtons extends StatelessWidget {
   }
 }
 
+
 class RaisedBtn extends StatelessWidget {
   RaisedBtn(
       {@required this.text, @required this.onPressed, @required this.count});
 
   final String text;
-  final int count;
+  var count;
   final GestureTapCallback onPressed;
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -45,14 +45,26 @@ class RaisedBtn extends StatelessWidget {
         ),
         width: width * 0.85,
         height: height * 0.11,
-        child:RaisedButton(
+        child:
+        this.count >0 ?
+          RaisedButton(
             color: CustomizedColors.raisedBtnColor,
             onPressed: onPressed,
             child:  Text('$text ($count)',
               style: TextStyle(
-                  color: CustomizedColors.materialButtonColor, fontSize: 20),
+                  color: CustomizedColors.raisedButtonTextColor, fontSize: 20),
               textAlign: TextAlign.center,)
-        )
+        ) : Card(
+            elevation: 2,
+            color: CustomizedColors.raisedBtnColor,
+            child:
+            Center(
+              child: Text('$text ($count)',
+                style: TextStyle(
+                    color: CustomizedColors.raisedButtonTextColor, fontSize: 20),
+                textAlign: TextAlign.center,)
+            )
+        ),
     );
   }
 }

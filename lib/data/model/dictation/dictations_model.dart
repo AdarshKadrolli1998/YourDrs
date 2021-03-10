@@ -1,3 +1,4 @@
+/// One model class for all three get apis related to dictations
 class Dictations {
   Header header;
   List<DictationItem> audioDictations;

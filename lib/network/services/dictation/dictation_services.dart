@@ -3,14 +3,15 @@ import 'package:YOURDRS_FlutterAPP/data/model/dictation/dictations_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+/// Get all dictations api service class
 class AllDictationService {
 
   Future<Dictations> getDictations() async{
     try {
       var endpointUrl = ApiUrlConstants.dictations;
       Map<String, dynamic> queryParams = {
-        'TranscriptionId': '5753',
-        'AppointmentId': '34533',
+        'TranscriptionId': '25',
+        'AppointmentId': '12',
       };
 
       String queryString = Uri(queryParameters: queryParams).query;
@@ -38,6 +39,7 @@ class AllDictationService {
   }
 }
 
+/// Get all previous dictations api service class
 class AllPreviousDictationService {
 
   Future<Dictations> getAllPreviousDictations() async{
@@ -74,6 +76,7 @@ class AllPreviousDictationService {
   }
 }
 
+/// Get my previous dictations api service class
 class MyPreviousDictationService {
 
   Future<Dictations> getMyPreviousDictations() async{

@@ -37,7 +37,7 @@ class _PatientDetailsState extends State<PatientDetails> {
     Dictations myPreviousDictations = await apiServices3.getMyPreviousDictations();
     myPrevDtion = myPreviousDictations.audioDictations;
   }
-//  var data = {allDtion,}
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -117,6 +117,10 @@ class _PatientDetailsState extends State<PatientDetails> {
                               context,
                               MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
                             );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) => MyHomePage()),
+                            // );
                           //   final action = CupertinoActionSheet(
                           //     actions: [
                           //       CupertinoActionSheetAction(

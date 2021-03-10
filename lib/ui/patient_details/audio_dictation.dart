@@ -9,6 +9,7 @@ import 'package:file/local.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AudioDictation extends StatefulWidget {
   @override
@@ -122,6 +123,15 @@ class _AudioDictationState extends State<AudioDictation> {
                                         BlocProvider.of<AudioDictationBloc>(
                                                 context)
                                             .add(StartRecord());
+                                        Fluttertoast.showToast(
+                                            msg: "Record not found",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: CustomizedColors.toastColor,
+                                            textColor: CustomizedColors.textColor,
+                                            fontSize: 16.0
+                                        );
                                         break;
                                       }
                                     case RecordingStatus.Recording:
