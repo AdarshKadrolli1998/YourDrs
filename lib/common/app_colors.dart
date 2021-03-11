@@ -29,8 +29,11 @@ class CustomizedColors {
   static const circleAvatarColor = Color.fromRGBO(30, 82, 163, 1);
   static final waveBGColor = Colors.lightBlue[50];
   static const raisedButtonTextColor = Color.fromRGBO(30,82,163, 1);
+  static const raisedButtonColor = Color.fromRGBO(30,82,163, 1);
   static const raisedBtnColor = Color.fromRGBO(239,240,249,1);
   static const dictationListIconColor = Color.fromRGBO(30,82,163, 1);
   static const toastColor = Color.fromRGBO(30,82,163, 1);
+  static const audioPlayerIconsColor = Color.fromRGBO(30, 82, 163, 1);
+  static const audioPlayerSliderColor = Color.fromRGBO(30, 82, 163, 1);
   static const uploadedTextColor = Color.fromRGBO(108,219,151,1);
 }

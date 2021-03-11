@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:YOURDRS_FlutterAPP/data/model/audio.dart';
+import 'package:YOURDRS_FlutterAPP/network/model/audio.dart';
 import 'package:path/path.dart';
 
 import 'package:path_provider/path_provider.dart';

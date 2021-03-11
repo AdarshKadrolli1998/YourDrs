@@ -11,12 +11,14 @@ const kUrl =
 
 enum PlayerState { stopped, playing, paused }
 
-class AudioApp extends StatefulWidget {
+class PlayAudio extends StatefulWidget {
+  String fileName;
+  PlayAudio({@required this.fileName});
   @override
-  _AudioAppState createState() => _AudioAppState();
+  _PlayAudioState createState() => _PlayAudioState();
 }
 
-class _AudioAppState extends State<AudioApp> {
+class _PlayAudioState extends State<PlayAudio> {
   Duration duration;
   Duration position;
 
@@ -109,19 +111,18 @@ class _AudioAppState extends State<AudioApp> {
 //building the widget
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return Center(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Audio_1_Y3BGCT9812-2_2021-03-08 10:02:39.308909.mp4',
-                style: TextStyle(fontSize: 15)),
+            Text(widget.fileName,
+                style: TextStyle(fontSize: 18)),
             Material(child: _buildPlayer()),
-            if (!kIsWeb)
+            if(!kIsWeb)
               localFilePath != null ? Text(localFilePath) : Container(),
-            if (!kIsWeb)
+            if(!kIsWeb)
               Padding(
                 padding: const EdgeInsets.all(8.0),
               ),
@@ -142,24 +143,24 @@ class _AudioAppState extends State<AudioApp> {
                 onPressed: isPlaying ? null : () => play(),
                 iconSize: 64.0,
                 icon: Icon(Icons.play_arrow),
-                color: CustomizedColors.accentColor,
+                color: CustomizedColors.audioPlayerIconsColor,
               ),
               IconButton(
                 onPressed: isPlaying ? () => pause() : null,
                 iconSize: 64.0,
                 icon: Icon(Icons.pause),
-                color: CustomizedColors.accentColor,
+                color: CustomizedColors.audioPlayerIconsColor,
               ),
               IconButton(
                 onPressed: isPlaying || isPaused ? () => stop() : null,
                 iconSize: 64.0,
                 icon: Icon(Icons.stop),
-                color: CustomizedColors.accentColor,
+                color: CustomizedColors.audioPlayerIconsColor,
               ),
             ]),
             if (duration != null)
               Slider(
-                  activeColor: CustomizedColors.accentColor,
+                  activeColor: CustomizedColors.audioPlayerSliderColor,
                   value: position?.inMilliseconds?.toDouble() ?? 0.0,
                   onChanged: (double value) {
                     return audioPlayer.seek((value / 1000).roundToDouble());
@@ -171,7 +172,8 @@ class _AudioAppState extends State<AudioApp> {
           ],
         ),
       );
-//build progressview for curret time and total time
+
+/// build progress view for current time and total time
   Row _buildProgressView() => Row(mainAxisSize: MainAxisSize.min, children: [
         Padding(
           padding: EdgeInsets.all(12.0),

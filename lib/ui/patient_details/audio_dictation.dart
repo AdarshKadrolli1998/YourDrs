@@ -77,7 +77,16 @@ class _AudioDictationState extends State<AudioDictation> {
                                 onPressed: () async {
                                   /// bloc provider for save record event
                                   BlocProvider.of<AudioDictationBloc>(context)
-                                      .add(SaveRecord());
+                                      .add(StopRecord());
+                                  Fluttertoast.showToast(
+                                      msg: "Recording Saved",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: CustomizedColors.toastColor,
+                                      textColor: CustomizedColors.textColor,
+                                      fontSize: 16.0
+                                  );
                                 },
                                 child: Text(
                                   AppStrings.saveForLater,
@@ -115,6 +124,7 @@ class _AudioDictationState extends State<AudioDictation> {
                                   vertical: MediaQuery.of(context).size.height / 150
                               ),
                               child: FlatButton(
+                                padding: EdgeInsets.all(0),
                                 onPressed: () {
                                   switch (_currentStatus) {
                                     case RecordingStatus.Initialized:
@@ -124,7 +134,7 @@ class _AudioDictationState extends State<AudioDictation> {
                                                 context)
                                             .add(StartRecord());
                                         Fluttertoast.showToast(
-                                            msg: "Record not found",
+                                            msg: "Recording Started",
                                             toastLength: Toast.LENGTH_SHORT,
                                             gravity: ToastGravity.CENTER,
                                             timeInSecForIosWeb: 1,
@@ -140,6 +150,15 @@ class _AudioDictationState extends State<AudioDictation> {
                                         BlocProvider.of<AudioDictationBloc>(
                                                 context)
                                             .add(PauseRecord());
+                                        Fluttertoast.showToast(
+                                            msg: "Recording Paused",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: CustomizedColors.toastColor,
+                                            textColor: CustomizedColors.textColor,
+                                            fontSize: 16.0
+                                        );
                                         break;
                                       }
                                     case RecordingStatus.Paused:
@@ -148,6 +167,15 @@ class _AudioDictationState extends State<AudioDictation> {
                                         BlocProvider.of<AudioDictationBloc>(
                                                 context)
                                             .add(ResumeRecord());
+                                        Fluttertoast.showToast(
+                                            msg: "Recording Resumed",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: CustomizedColors.toastColor,
+                                            textColor: CustomizedColors.textColor,
+                                            fontSize: 16.0
+                                        );
                                         break;
                                       }
                                     case RecordingStatus.Stopped:
@@ -170,13 +198,13 @@ class _AudioDictationState extends State<AudioDictation> {
                               ),
                             ),
                             FlatButton(
+                              padding: EdgeInsets.all(0),
                                 onPressed: () {
                                   /// Upload audio popup screen
                                   showModalBottomSheet(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return Card(
-                                        child: ListView(
+                                      return ListView(
                                           children: [
                                             Container(
                                               height: height * 0.38,
@@ -251,7 +279,6 @@ class _AudioDictationState extends State<AudioDictation> {
                                               ),
                                             ),
                                           ],
-                                        ),
                                       );
                                     },
                                   );
@@ -268,13 +295,22 @@ class _AudioDictationState extends State<AudioDictation> {
                               child: GestureDetector(
                                 child: Icon(
                                   Icons.delete,
-                                  color: Colors.red,
+                                  color: CustomizedColors.deleteIconColor,
                                   size: 45,
                                 ),
                                 onTap: () {
                                   /// bloc provider for delete record event
                                   BlocProvider.of<AudioDictationBloc>(context)
                                       .add(DeleteRecord());
+                                  Fluttertoast.showToast(
+                                      msg: "Recording Deleted",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: CustomizedColors.toastColor,
+                                      textColor: CustomizedColors.textColor,
+                                      fontSize: 16.0
+                                  );
                                   print("Reset called");
                                 },
                               ),

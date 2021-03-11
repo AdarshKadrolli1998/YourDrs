@@ -54,15 +54,18 @@ class RaisedBtn extends StatelessWidget {
               style: TextStyle(
                   color: CustomizedColors.raisedButtonTextColor, fontSize: 20),
               textAlign: TextAlign.center,)
-        ) : Card(
+        ) :
+        Card(
             elevation: 2,
             color: CustomizedColors.raisedBtnColor,
             child:
             Center(
               child: Text('$text ($count)',
                 style: TextStyle(
-                    color: CustomizedColors.raisedButtonTextColor, fontSize: 20),
-                textAlign: TextAlign.center,)
+                    color: CustomizedColors.raisedButtonTextColor, fontSize: 20,fontWeight: FontWeight.w500
+                ),
+                textAlign: TextAlign.center,
+              )
             )
         ),
     );

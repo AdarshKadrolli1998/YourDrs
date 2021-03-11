@@ -7,12 +7,12 @@ class AppStrings {
   static const notNow = "notNow";
   static const saveForLater= "Save for Later";
   static const dict= "Upload this dictation for transcription?";
-  static const cancel = "cancel";
-  static const upload = "upload";
-  static const startFile = "start file";
+  static const cancel = "Cancel";
+  static const upload = "Upload";
+  static const startFile = "Start file";
   static const dictType = "Select dictation type";
-  static const camera = "camera";
-  static const photoLib = "photo library";
+  static const camera = "Camera";
+  static const photoLib = "Photo Library";
   static const dictationType= "Dictation type";
   static const patientNameAppBar = "Kevin Peterson";
   static const textDictation = "Dictations";

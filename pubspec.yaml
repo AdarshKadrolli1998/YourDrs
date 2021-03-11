@@ -31,7 +31,7 @@ dependencies:
   # Date Formatter
   intl: any
 
-  file_picker: ^1.13.3
+
   audio_wave: ^0.0.3
   path_provider: ^1.6.27
   flutter_audio_recorder: ^0.5.5
@@ -39,10 +39,11 @@ dependencies:
   equatable:
   bloc:
   flutter_bloc:
+  # to show to message while recording the audio
   fluttertoast: ^7.1.8
   http:
+  #  to play the audio the audio in dictation list
   audioplayer:
-
   #  For the display of alert in patient details screen
   rflutter_alert: ^1.0.3
 

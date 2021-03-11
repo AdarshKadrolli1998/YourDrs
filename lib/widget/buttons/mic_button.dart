@@ -32,52 +32,47 @@ class _MicButtonState extends State<MicButton> {
           context: context,
           title: "Select a Dictation Type",
           content:  Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 10
+              ),
               color: CustomizedColors.alertColor,
               height: height * 0.09,
               width: width * 0.65,
               child: FormField<String>(
                 builder: (FormFieldState<String> state) {
-                  return InputDecorator(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),)),
-                    isEmpty: _currentSelectedValue == '',
-                    /// calling the drop down button widget from widget folder
-                    child: DropDown(
-                      value: _currentSelectedValue,
-                      hint: "Dictation Type",
-                      onChanged: (String newValue) {
-                        Navigator.pop(context);
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Card(
-                                child: Container(
-                                  height: height * 0.50,
-                                  child: BlocProvider<AudioDictationBloc>(
-                                    create: (context) => AudioDictationBloc(),
-                                    /// calling the audio dictation class from ui folder
-                                    child: AudioDictation(),
-                                  ),
-                                )
-                            );
+
+                  /// calling the drop down button widget from widget folder
+                  return DropDown(
+                    value: _currentSelectedValue,
+                    hint: "Dictation Type",
+                    onChanged: (String newValue) {
+                      Navigator.pop(context);
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                            height: height * 0.50,
+                            child: BlocProvider<AudioDictationBloc>(
+                              create: (context) => AudioDictationBloc(),
+                              /// calling the audio dictation class from ui folder
+                              child: AudioDictation(),
+                            ),
+                          );
                           },
-                        );
-                        setState(() {
-                          _currentSelectedValue = newValue;
-                          state.didChange(newValue);
-                          print(_currentSelectedValue);
-                        });
+                      );
+                      setState(() {
+                        _currentSelectedValue = newValue;
+                        state.didChange(newValue);
+                      });
                       },
-                      items: _currencies.map((value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
+                    items: _currencies.map((value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
                   );
-                },
+                  },
               )
           ),
           buttons: [

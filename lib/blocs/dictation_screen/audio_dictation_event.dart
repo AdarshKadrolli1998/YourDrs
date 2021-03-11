@@ -46,9 +46,3 @@ class DeleteRecord extends AudioDictationEvent {
   @override
   List<Object> get props => [];
 }
-
-/// event save record
-class SaveRecord extends AudioDictationEvent {
-  @override
-  List<Object> get props => [];
-}

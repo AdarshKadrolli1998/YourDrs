@@ -1,10 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:YOURDRS_FlutterAPP/blocs/dictation_screen/audio_dictation_event.dart';
 import 'package:YOURDRS_FlutterAPP/blocs/dictation_screen/audio_dictation_state.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/audio.dart';
-import 'package:YOURDRS_FlutterAPP/helper/db_helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,7 +12,7 @@ import 'package:path_provider/path_provider.dart';
 class AudioDictationBloc extends Bloc<AudioDictationEvent, AudioDictationState> {
   FlutterAudioRecorder _recorder;
   Timer _timer;
-
+  var finalPath;
   AudioDictationBloc() : super(AudioDictationState.initial());
 
   @override
@@ -40,16 +39,18 @@ class AudioDictationBloc extends Bloc<AudioDictationEvent, AudioDictationState> 
     }
     else if (event is StopRecord) {
       yield* _stop();
+
+      print('path: ${state.current.path}');
+      List<int> fileBytes = await File(state.current.path).readAsBytes();
+
+      String base64String = base64Encode(fileBytes);
+      final fileString = 'data:audio/mp4;base64,$base64String';
+      print(fileString.toString());
+      print('file length: ${fileString.length}');
+      yield* _init();
     }
     else if (event is DeleteRecord) {
       yield* _reset();
-    }
-    else if (event is SaveRecord) {
-      add(StopRecord());
-      var audioFile = await File(state.current.path).readAsBytes();
-      print('Byte converted file ---' +audioFile.length.toString());
-      DatabaseHelper.db.insertAudio(Audio(audioFile: audioFile));
-      add(InitRecord());
     }
   }
 
@@ -69,7 +70,7 @@ class AudioDictationBloc extends Bloc<AudioDictationEvent, AudioDictationState> 
         /// can add extension like ".mp4" ".wav" ".m4a" ".aac"
         customPath = appDocDirectory.path +
             customPath +
-            DateTime.now().toString() + ".mp4";
+            DateTime.now().microsecondsSinceEpoch.toString() + ".mp4";
         /// .wav <---> AudioFormat.WAV
         /// .mp4 .m4a .aac <---> AudioFormat.AAC
         /// AudioFormat is optional, if given value, will overwrite path extension when there is conflicts.
@@ -189,6 +190,7 @@ class AudioDictationBloc extends Bloc<AudioDictationEvent, AudioDictationState> 
     var result = await _recorder.stop();
     print("Stop recording: ${result.duration} ${result.path}");
 
+    finalPath=result.path;
     yield state.copyWith(
       viewVisible: false,
       current: result,

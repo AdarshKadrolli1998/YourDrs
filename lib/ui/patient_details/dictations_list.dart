@@ -1,16 +1,11 @@
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation/dictations_model.dart';
-import 'package:YOURDRS_FlutterAPP/ui/patient_details/audioplayerr.dart';
-import 'package:YOURDRS_FlutterAPP/widget/mic_button.dart';
+import 'package:YOURDRS_FlutterAPP/network/model/dictation/dictations_model.dart';
+import 'package:YOURDRS_FlutterAPP/ui/patient_details/play_audio.dart';
+import 'package:YOURDRS_FlutterAPP/widget/buttons/mic_button.dart';
 import 'package:flutter/material.dart';
 
-class DictationsList extends StatefulWidget {
-  @override
-  _DictationsListState createState() => _DictationsListState();
-}
-
-class _DictationsListState extends State<DictationsList> {
+class DictationsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<DictationItem> args = ModalRoute.of(context).settings.arguments;
@@ -63,7 +58,8 @@ class _DictationsListState extends State<DictationsList> {
                             child: Text(
                               args[index].displayFileName ?? "",
                               style: TextStyle(fontSize: 16),
-                            )),
+                            )
+                        ),
                       ],
                     ),
                     Row(
@@ -91,13 +87,13 @@ class _DictationsListState extends State<DictationsList> {
                                             children: [
                                               Column(
                                                 children: [
-                                                  AudioApp(),
+                                                  PlayAudio(fileName: args[index].displayFileName),
                                                   MaterialButton(
                                                     child: Text(
                                                       'Cancel',
-                                                      style: TextStyle(fontSize: 18),
+                                                      style: TextStyle(fontSize: 18,color: CustomizedColors.textColor),
                                                     ),
-                                                    color: CustomizedColors.raisedButtonTextColor,
+                                                    color: CustomizedColors.raisedButtonColor,
                                                     shape: StadiumBorder(),
                                                     onPressed: () {
                                                       Navigator.of(context).pop();
@@ -125,70 +121,6 @@ class _DictationsListState extends State<DictationsList> {
                 ),
               );
             },
-              // Divider(
-              //   thickness: 1,
-              // ),
-              // Container(
-              //   child: Column(
-              //     children: [
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.end,
-              //         children: [
-              //           Text(
-              //             AppStrings.textUploaded,
-              //             style: TextStyle(
-              //                 color: CustomizedColors.uploadedTextColor,
-              //                 fontSize: 16),
-              //           ),
-              //           SizedBox(
-              //             width: width * 0.045,
-              //           ),
-              //           Icon(
-              //             Icons.cloud_done,
-              //             size: 30,
-              //             color: CustomizedColors.dictationListIconColor,
-              //           ),
-              //         ],
-              //       ),
-              //       SizedBox(
-              //         height: height * 0.020,
-              //       ),
-              //       Row(
-              //         children: [
-              //           Expanded(
-              //               child: Text(
-              //             'MR_hareesh_Y201243120_1_20210217_637496828593768180',
-              //             style: TextStyle(fontSize: 16),
-              //           )),
-              //         ],
-              //       ),
-              //       SizedBox(
-              //         height: height * 0.020,
-              //       ),
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.end,
-              //         children: [
-              //           Icon(
-              //             Icons.remove_red_eye,
-              //             size: 30,
-              //             color: CustomizedColors.dictationListIconColor,
-              //           ),
-              //           SizedBox(
-              //             width: width * 0.045,
-              //           ),
-              //           Icon(
-              //             Icons.play_circle_fill,
-              //             size: 30,
-              //             color: CustomizedColors.dictationListIconColor,
-              //           ),
-              //         ],
-              //       )
-              //     ],
-              //   ),
-              // ),
-              // Divider(
-              //   thickness: 1,
-              // ),
           ),
         ),
         /// calling the mic button widget from widget folder

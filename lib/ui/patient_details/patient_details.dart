@@ -1,10 +1,10 @@
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
-import 'package:YOURDRS_FlutterAPP/widget/mic_button.dart';
+import 'package:YOURDRS_FlutterAPP/widget/buttons/mic_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dictation_type.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation/dictations_model.dart';
+import 'package:YOURDRS_FlutterAPP/network/model/dictation/dictations_model.dart';
 import 'package:YOURDRS_FlutterAPP/network/services/dictation/dictation_services.dart';
 
 class PatientDetails extends StatefulWidget {
