@@ -1,5 +1,6 @@
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
+import 'package:YOURDRS_FlutterAPP/ui/patient_details/all_dictations.dart';
 import 'package:YOURDRS_FlutterAPP/widget/buttons/mic_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class _PatientDetailsState extends State<PatientDetails> {
     Dictations myPreviousDictations = await apiServices3.getMyPreviousDictations();
     myPrevDtion = myPreviousDictations.audioDictations;
   }
-
+  bool isLoading=false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,11 +49,18 @@ class _PatientDetailsState extends State<PatientDetails> {
           ),
           body: ListView(
             children: [
+
               Container(
-                padding: EdgeInsets.all(25),
-                child: Column(
-                  children: [
-                    Container(
+              padding: EdgeInsets.all(25),
+              child: Column(
+                children: [
+                      // isLoading?FractionalTranslation(
+                      //   translation: Offset(0.0,4.0),
+                      //   child: Center(
+                      //     child: CircularProgressIndicator(),
+                      //   ),
+                      // ):
+                      Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -84,176 +92,136 @@ class _PatientDetailsState extends State<PatientDetails> {
                         ],
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text("Start File"),
-                        Switch(
-                          value: isSwitched,
-                          onChanged: (value) {
-                            setState(() {
-                              isSwitched = value;
-                              print(isSwitched);
-                            });
-                          },
-                          activeTrackColor: Colors.lightBlue[100],
-                          activeColor: Colors.blue,
-                          inactiveThumbColor: CustomizedColors.switchButtonColor,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        /// calling the mic button widget from widget folder
-                        MicButton(),
-                        FlatButton(
-                          padding: EdgeInsets.all(0),
-                          onPressed: () async {
-                            await AllDtion();
-                            await AllPrevDtion();
-                            await MyPrevDtion();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
-                            );
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => MyHomePage()),
-                            // );
-                          //   final action = CupertinoActionSheet(
-                          //     actions: [
-                          //       CupertinoActionSheetAction(
-                          //         child: Row(
-                          //           children: [
-                          //             Icon(Icons.camera_alt, color: Colors.blue),
-                          //             Container(
-                          //                 padding: EdgeInsets.only(left: 150),
-                          //                 child: Text("Camera")),
-                          //           ],
-                          //         ),
-                          //         onPressed: () {
-                          //           print("Camera clicked");
-                          //         },
-                          //       ),
-                          //       CupertinoActionSheetAction(
-                          //         child: Row(
-                          //           children: [
-                          //             Icon(Icons.photo, color: Colors.blue),
-                          //             Container(
-                          //                 padding: EdgeInsets.only(left: 125),
-                          //                 child: Text("Photo Library")),
-                          //           ],
-                          //         ),
-                          //         onPressed: () {
-                          //           print("Photo Library clicked");
-                          //         },
-                          //       )
-                          //     ],
-                          //     cancelButton: CupertinoActionSheetAction(
-                          //       child: Text("Cancel"),
-                          //       onPressed: () {
-                          //         Navigator.pop(context);
-                          //       },
-                          //     ),
-                          //   );
-                          //
-                          //   showCupertinoModalPopup(
-                          //       context: context, builder: (context) => action);
-                          },
-                          child: Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                                color: CustomizedColors.circleAvatarColor,
-                                borderRadius: BorderRadius.circular(50)),
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
-                              size: 40,
-                            ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("Start File"),
+                      Switch(
+                        value: isSwitched,
+                        onChanged: (value) {
+                          setState(() {
+                            isSwitched = value;
+                            print(isSwitched);
+                          });
+                        },
+                        activeTrackColor: Colors.lightBlue[100],
+                        activeColor: Colors.blue,
+                        inactiveThumbColor: CustomizedColors.switchButtonColor,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      /// calling the mic button widget from widget folder
+                      MicButton(),
+                      FlatButton(
+                        padding: EdgeInsets.all(0),
+                        onPressed: () async {
+                          setState(() {
+                            isLoading=true;
+                          });
+                          await AllDtion();
+                          await AllPrevDtion();
+                          await MyPrevDtion();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
+                          );
+                        },
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                              color: CustomizedColors.circleAvatarColor,
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                            size: 40,
                           ),
                         ),
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 15, bottom: 15),
-                      child: Card(
-                        elevation: 5,
-                        child: Column(
-                          children: [
-                            ListTile(
-                              leading: Text("Date of Birth"),
-                              trailing: Text("02-17-1992"),
-                            ),
-                            ListTile(
-                              leading: Text("Case No."),
-                              trailing: Text("Y210243271_1"),
-                            ),
-                            ListTile(
-                              leading: Text("PC-MO"),
-                              trailing: Text("Checked out"),
-                            ),
-                          ],
-                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 15, bottom: 15),
+                    child: Card(
+                      elevation: 5,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            leading: Text("Date of Birth"),
+                            trailing: Text("02-17-1992"),
+                          ),
+                          ListTile(
+                            leading: Text("Case No."),
+                            trailing: Text("Y210243271_1"),
+                          ),
+                          ListTile(
+                            leading: Text("PC-MO"),
+                            trailing: Text("Checked out"),
+                          ),
+                        ],
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 15),
-                      color: Color.fromRGBO(237, 243, 245, 1),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.file_copy,
-                          color: CustomizedColors.primaryColor,
-                          size: 40,
-                        ),
-                        title: Text(
-                          "Super Bill",
-                          style: TextStyle(
-                              color: CustomizedColors.primaryColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 15),
+                    color: Color.fromRGBO(237, 243, 245, 1),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.file_copy,
+                        color: CustomizedColors.primaryColor,
+                        size: 40,
+                      ),
+                      title: Text(
+                        "Super Bill",
+                        style: TextStyle(
+                            color: CustomizedColors.primaryColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 15),
-                      color: Color.fromRGBO(237, 243, 245, 1),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.file_copy,
-                          color: CustomizedColors.primaryColor,
-                          size: 40,
-                        ),
-                        title: Text(
-                          "Super Bill",
-                          style: TextStyle(
-                              color: CustomizedColors.primaryColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 15),
+                    color: Color.fromRGBO(237, 243, 245, 1),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.file_copy,
+                        color: CustomizedColors.primaryColor,
+                        size: 40,
+                      ),
+                      title: Text(
+                        "Super Bill",
+                        style: TextStyle(
+                            color: CustomizedColors.primaryColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Container(
-                      color: Color.fromRGBO(237, 243, 245, 1),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.file_copy,
-                          color: CustomizedColors.primaryColor,
-                          size: 40,
-                        ),
-                        title: Text(
-                          "Super Bill",
-                          style: TextStyle(
-                              color: CustomizedColors.primaryColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
+                  ),
+                  Container(
+                    color: Color.fromRGBO(237, 243, 245, 1),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.file_copy,
+                        color: CustomizedColors.primaryColor,
+                        size: 40,
+                      ),
+                      title: Text(
+                        "Super Bill",
+                        style: TextStyle(
+                            color: CustomizedColors.primaryColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+                ),
             ],
           ),
         )

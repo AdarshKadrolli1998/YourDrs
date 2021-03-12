@@ -9,8 +9,8 @@ class AllDictationService {
     try {
       var endpointUrl = ApiUrlConstants.dictations;
       Map<String, dynamic> queryParams = {
-        'TranscriptionId': '25',
-        'AppointmentId': '12',
+        'TranscriptionId': '5753',
+        'AppointmentId': '34533',
       };
       String queryString = Uri(queryParameters: queryParams).query;
       var requestUrl = endpointUrl + '?' + queryString;

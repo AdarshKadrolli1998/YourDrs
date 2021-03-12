@@ -1,17 +1,30 @@
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
 import 'package:YOURDRS_FlutterAPP/network/model/dictation/dictations_model.dart';
-import 'package:YOURDRS_FlutterAPP/ui/patient_details/play_audio.dart';
+import 'package:YOURDRS_FlutterAPP/network/services/dictation/dictation_services.dart';
 import 'package:YOURDRS_FlutterAPP/widget/buttons/mic_button.dart';
 import 'package:flutter/material.dart';
 
-class DictationsList extends StatelessWidget {
+class AllDictations extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    final List<DictationItem> args = ModalRoute.of(context).settings.arguments;
+  _AllDictationsState createState() => _AllDictationsState();
+}
 
+class _AllDictationsState extends State<AllDictations> {
+  List allDtion = List();
+  AllDictationService apiServices1 = AllDictationService();
+
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    Dictations allDictations = await apiServices1.getDictations();
+    // print('allDictations--> $allDictations');
+    allDtion = allDictations.audioDictations;
+  }
+ @override
+  Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -25,7 +38,7 @@ class DictationsList extends StatelessWidget {
             vertical: MediaQuery.of(context).size.height / 50,
           ),
           child: ListView.builder(
-            itemCount: args.length,
+            itemCount: allDtion.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 child: Column(
@@ -56,7 +69,7 @@ class DictationsList extends StatelessWidget {
                       children: [
                         Expanded(
                             child: Text(
-                              args[index].displayFileName ?? "",
+                              allDtion[index].displayFileName ?? "",
                               style: TextStyle(fontSize: 16),
                             )
                         ),
@@ -73,42 +86,7 @@ class DictationsList extends StatelessWidget {
                         ),
                         IconButton(
                           padding: EdgeInsets.all(0),
-                          onPressed: () {
-                            showModalBottomSheet<void>(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Container(
-                                      height: height * 0.55,
-                                      child: Center(
-                                        child: Container(
-                                          height: height * 0.50,
-                                          width: width * 0.90,
-                                          child: ListView(
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  PlayAudio(fileName: args[index].displayFileName),
-                                                  MaterialButton(
-                                                    child: Text(
-                                                      'Cancel',
-                                                      style: TextStyle(fontSize: 18,color: CustomizedColors.textColor),
-                                                    ),
-                                                    color: CustomizedColors.raisedButtonColor,
-                                                    shape: StadiumBorder(),
-                                                    onPressed: () {
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                );
-                              },
-                            );
-                          },
+                          onPressed: () {  },
                           icon: Icon(Icons.play_circle_fill,size: 30,),
                           color: CustomizedColors.dictationListIconColor,
                         ),

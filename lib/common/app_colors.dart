@@ -36,4 +36,6 @@ class CustomizedColors {
   static const audioPlayerIconsColor = Color.fromRGBO(30, 82, 163, 1);
   static const audioPlayerSliderColor = Color.fromRGBO(30, 82, 163, 1);
   static const uploadedTextColor = Color.fromRGBO(108,219,151,1);
+  static final uploadToServerTextColor = Color.fromRGBO(108,219,151,1);
+  static final uploadFailTextColor= Colors.red;
 }

@@ -19,10 +19,13 @@ class AppStrings {
   static const textMyDictation = "My Previous Dictations";
   static const textAllDictation = "All Previous Dictations";
   static const textUploaded = "Uploaded";
+  static const uploadToServer="your data has been uploaded successfully";
+  static const uploadFailed="Upload Failed";
 }
 
 class ApiUrlConstants{
   static const dictations = AppConstants.dioBaseUrl + "api/Dictation/GetAllDictations";
   static const allPreviousDictations = AppConstants.dioBaseUrl + "api/Dictation/GetPreviousDictations";
   static const myPreviousDictations = AppConstants.dioBaseUrl + "api/Dictation/GetMyPreviousDictations";
+  static const saveDictations = AppConstants.dioBaseUrl + "api/Dictation/SaveDictation";
 }
