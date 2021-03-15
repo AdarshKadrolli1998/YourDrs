@@ -1,6 +1,7 @@
 import 'package:YOURDRS_FlutterAPP/blocs/base/base_bloc_event.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 
+/// abstract class for audio dictation event
 abstract class AudioDictationEvent extends BaseBlocEvent {}
 
 /// event initialize record

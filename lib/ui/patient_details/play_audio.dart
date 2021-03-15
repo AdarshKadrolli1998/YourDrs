@@ -28,8 +28,10 @@ class _PlayAudioState extends State<PlayAudio> {
 
   PlayerState playerState = PlayerState.stopped;
 
-  get isPlaying => playerState == PlayerState.playing;
-  get isPaused => playerState == PlayerState.paused;
+  get isPlaying =>
+      playerState == PlayerState.playing;
+  get isPaused =>
+      playerState == PlayerState.paused;
 
   get durationText =>
       duration != null ? duration.toString().split('.').first : '';
@@ -45,12 +47,14 @@ class _PlayAudioState extends State<PlayAudio> {
   @override
   void initState() {
     super.initState();
+    // BlocProvider.of<PlayAudioBloc>(context).add(InitPlayer());
     initAudioPlayer();
   }
 
 //dispose
   @override
   void dispose() {
+    // BlocProvider.of<PlayAudioBloc>(context).add(DisposePlayer());
     _positionSubscription.cancel();
     _audioPlayerStateSubscription.cancel();
     audioPlayer.stop();
@@ -59,6 +63,7 @@ class _PlayAudioState extends State<PlayAudio> {
 
 //init for audio player
   void initAudioPlayer() {
+    // BlocProvider.of<PlayAudioBloc>(context).add(InitPlayer());
     audioPlayer = AudioPlayer();
     _positionSubscription = audioPlayer.onAudioPositionChanged
         .listen((p) => setState(() => position = p));
@@ -83,6 +88,7 @@ class _PlayAudioState extends State<PlayAudio> {
 
 // play for audio
   Future play() async {
+    // BlocProvider.of<PlayAudioBloc>(context).add(StartPlayer());
     await audioPlayer.play(kUrl);
     setState(() {
       playerState = PlayerState.playing;
@@ -91,12 +97,14 @@ class _PlayAudioState extends State<PlayAudio> {
 
 //pause for audio
   Future pause() async {
+    // BlocProvider.of<PlayAudioBloc>(context).add(PausePlayer());
     await audioPlayer.pause();
     setState(() => playerState = PlayerState.paused);
   }
 
 //stop for audio
   Future stop() async {
+    // BlocProvider.of<PlayAudioBloc>(context).add(StopPlayer());
     await audioPlayer.stop();
     setState(() {
       playerState = PlayerState.stopped;
@@ -105,6 +113,7 @@ class _PlayAudioState extends State<PlayAudio> {
   }
 
   void onComplete() {
+    // BlocProvider.of<PlayAudioBloc>(context).add(CompletePlayer());
     setState(() => playerState = PlayerState.stopped);
   }
 
@@ -152,7 +161,7 @@ class _PlayAudioState extends State<PlayAudio> {
                 color: CustomizedColors.audioPlayerIconsColor,
               ),
               IconButton(
-                onPressed: isPlaying || isPaused ? () => stop() : null,
+                onPressed: isPlaying || isPaused ? () =>  stop() : null,
                 iconSize: 64.0,
                 icon: Icon(Icons.stop),
                 color: CustomizedColors.audioPlayerIconsColor,
@@ -167,7 +176,7 @@ class _PlayAudioState extends State<PlayAudio> {
                   },
                   min: 0,
                   max: duration.inMilliseconds.toDouble()),
-            //  if (position != null) _buildMuteButtons(),
+             // if (position != null) _buildMuteButtons(),
             if (position != null) _buildProgressView()
           ],
         ),

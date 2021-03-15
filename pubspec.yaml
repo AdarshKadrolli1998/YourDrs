@@ -46,6 +46,9 @@ dependencies:
   audioplayer:
   #  For the display of alert in patient details screen
   rflutter_alert: ^1.0.3
+  flutter_pdfview:
+  advance_pdf_viewer: ^1.2.2
+  path:
 
 dev_dependencies:
   flutter_test:

@@ -1,10 +1,9 @@
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
-import 'package:YOURDRS_FlutterAPP/ui/patient_details/all_dictations.dart';
 import 'package:YOURDRS_FlutterAPP/widget/buttons/mic_button.dart';
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dictation_type.dart';
 import 'package:YOURDRS_FlutterAPP/network/model/dictation/dictations_model.dart';
 import 'package:YOURDRS_FlutterAPP/network/services/dictation/dictation_services.dart';
 
@@ -20,6 +19,7 @@ class _PatientDetailsState extends State<PatientDetails> {
   List allPrevDtion = List();
   List myPrevDtion = List();
 
+  // ignore: non_constant_identifier_names
   AllDtion() async{
     AllDictationService apiServices1 = AllDictationService();
     Dictations allDictations = await apiServices1.getDictations();
@@ -27,18 +27,27 @@ class _PatientDetailsState extends State<PatientDetails> {
     allDtion = allDictations.audioDictations;
   }
 
+  // ignore: non_constant_identifier_names
   AllPrevDtion() async{
     AllPreviousDictationService apiServices2 = AllPreviousDictationService();
     Dictations allPreviousDictations = await apiServices2.getAllPreviousDictations();
     allPrevDtion = allPreviousDictations.audioDictations;
   }
 
+  // ignore: non_constant_identifier_names
   MyPrevDtion() async{
     MyPreviousDictationService apiServices3 = MyPreviousDictationService();
     Dictations myPreviousDictations = await apiServices3.getMyPreviousDictations();
     myPrevDtion = myPreviousDictations.audioDictations;
   }
   bool isLoading=false;
+  PDFDocument document;
+
+  loadDocument() async {
+    document = await PDFDocument.fromURL('http://conorlastowka.com/book/CitationNeededBook-Sample.pdf');
+
+    // setState(() => _isLoading = false);
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -121,12 +130,19 @@ class _PatientDetailsState extends State<PatientDetails> {
                           setState(() {
                             isLoading=true;
                           });
-                          await AllDtion();
-                          await AllPrevDtion();
-                          await MyPrevDtion();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
+                          // await AllDtion();
+                          // await AllPrevDtion();
+                          // await MyPrevDtion();
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
+                          // );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => MyApp1()),
+                          // );
+                          showDialog(context: context,
+                          builder: (ctx) => AlertDialog(content: loadDocument(),)
                           );
                         },
                         child: Container(

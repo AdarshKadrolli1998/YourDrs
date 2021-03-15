@@ -19,7 +19,7 @@ class AppStrings {
   static const textMyDictation = "My Previous Dictations";
   static const textAllDictation = "All Previous Dictations";
   static const textUploaded = "Uploaded";
-  static const uploadToServer="your data has been uploaded successfully";
+  static const uploadToServer="Your Data Has Been Uploaded Successfully";
   static const uploadFailed="Upload Failed";
 }
 

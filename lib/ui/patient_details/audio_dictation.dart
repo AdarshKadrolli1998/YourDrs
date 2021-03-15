@@ -3,7 +3,10 @@ import 'package:YOURDRS_FlutterAPP/blocs/dictation_screen/audio_dictation_state.
 import 'package:YOURDRS_FlutterAPP/blocs/dictation_screen/audio_dictation_event.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
+import 'package:YOURDRS_FlutterAPP/network/model/dictation/post_dictations_model.dart';
+import 'package:YOURDRS_FlutterAPP/network/services/dictation/post_dictations_service.dart';
 import 'package:YOURDRS_FlutterAPP/ui/patient_details/random_waves.dart';
+import 'package:YOURDRS_FlutterAPP/widget/save_dictations_alert.dart';
 import 'package:audio_wave/audio_wave.dart';
 import 'package:file/local.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +20,34 @@ class AudioDictation extends StatefulWidget {
 }
 
 class _AudioDictationState extends State<AudioDictation> {
+  var data;
+  SaveDictations() async{
+    try{
+      PostDictationsService apiPostServices = PostDictationsService();
+      PostDictationsModel saveDictations = await apiPostServices.postApiMethod();
+      data = saveDictations?.header?.statusCode;          //.ptinting status code
+      print("status $data");
+    } catch (e){
+      print('SaveDictations exception ${e.toString()}');
+    }
+
+  }
+  void _dialogBox() {
+    if(data == "200"){
+      // print("if status $data");
+      showDialog(
+          context: context,
+          builder: (ctx) => SaveDictationsAlert(title: AppStrings.uploadToServer, clr: CustomizedColors.uploadToServerTextColor,)
+      );
+    }else {
+      // print("else status $data");
+      showDialog(
+          context: context,
+          builder: (ctx) => SaveDictationsAlert(title:AppStrings.uploadFailed , clr: CustomizedColors.uploadFailTextColor,)
+      );
+    }
+  }
+
   LocalFileSystem localFileSystem;
   Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
@@ -200,6 +231,8 @@ class _AudioDictationState extends State<AudioDictation> {
                             FlatButton(
                               padding: EdgeInsets.all(0),
                                 onPressed: () {
+                                  BlocProvider.of<AudioDictationBloc>(context)
+                                      .add(StopRecord());
                                   /// Upload audio popup screen
                                   showModalBottomSheet(
                                     context: context,
@@ -259,7 +292,13 @@ class _AudioDictationState extends State<AudioDictation> {
                                                       ),
                                                       Container(
                                                         child: RaisedButton(
-                                                          onPressed: () {},
+                                                          onPressed: () async {
+                                                            ///calling post api to upload audio file
+                                                            await SaveDictations();
+                                                            await _dialogBox();
+                                                            await Navigator.pop(context);
+
+                                                          },
                                                           child: Text(
                                                             AppStrings.upload,
                                                             style: TextStyle(
