@@ -293,6 +293,15 @@ class _AudioDictationState extends State<AudioDictation> {
                                                       Container(
                                                         child: RaisedButton(
                                                           onPressed: () async {
+                                                            Fluttertoast.showToast(
+                                                                msg: "Uploading",
+                                                                toastLength: Toast.LENGTH_SHORT,
+                                                                gravity: ToastGravity.BOTTOM,
+                                                                timeInSecForIosWeb: 1,
+                                                                backgroundColor: CustomizedColors.toastColor,
+                                                                textColor: CustomizedColors.textColor,
+                                                                fontSize: 16.0
+                                                            );
                                                             ///calling post api to upload audio file
                                                             await SaveDictations();
                                                             await _dialogBox();

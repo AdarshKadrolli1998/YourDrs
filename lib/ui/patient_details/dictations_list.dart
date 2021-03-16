@@ -3,9 +3,24 @@ import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
 import 'package:YOURDRS_FlutterAPP/network/model/dictation/dictations_model.dart';
 import 'package:YOURDRS_FlutterAPP/ui/patient_details/play_audio.dart';
 import 'package:YOURDRS_FlutterAPP/widget/buttons/mic_button.dart';
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 
-class DictationsList extends StatelessWidget {
+class DictationsList extends StatefulWidget {
+  @override
+  _DictationsListState createState() => _DictationsListState();
+}
+
+class _DictationsListState extends State<DictationsList> {
+  PDFDocument document;
+  @override
+  void initState() {
+    super.initState();
+    loadDocument();
+  }
+  loadDocument() async {
+    document = await PDFDocument.fromURL('http://conorlastowka.com/book/CitationNeededBook-Sample.pdf');
+  }
   @override
   Widget build(BuildContext context) {
     final List<DictationItem> args = ModalRoute.of(context).settings.arguments;
@@ -67,7 +82,29 @@ class DictationsList extends StatelessWidget {
                       children: [
                         IconButton(
                           padding: EdgeInsets.all(0),
-                          onPressed: () {  },
+                          onPressed: () {
+                            showDialog(context: context,
+                                builder: (ctx) => AlertDialog(
+                                  insetPadding: EdgeInsets.symmetric( vertical: 70),
+                                  contentPadding: EdgeInsets.zero,
+                                  content: PDFViewer(
+                                  showNavigation: false,
+                                  showPicker: false,
+                                  scrollDirection: Axis.vertical,
+                                  document: document,
+                                  zoomSteps: 1,
+                                ),
+                                  actions: [
+                                    FlatButton(
+                                      child: Text('Close'),
+                                      onPressed: () {
+                                        Navigator.of(context, rootNavigator: true).pop();
+                                      },
+                                    ),
+                                  ],
+                                )
+                            );
+                          },
                           icon: Icon(Icons.remove_red_eye,size: 30,),
                           color: CustomizedColors.dictationListIconColor,
                         ),

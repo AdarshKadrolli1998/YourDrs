@@ -1,7 +1,7 @@
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
+import 'package:YOURDRS_FlutterAPP/ui/patient_details/dictation_type.dart';
 import 'package:YOURDRS_FlutterAPP/widget/buttons/mic_button.dart';
-import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:YOURDRS_FlutterAPP/network/model/dictation/dictations_model.dart';
@@ -41,13 +41,7 @@ class _PatientDetailsState extends State<PatientDetails> {
     myPrevDtion = myPreviousDictations.audioDictations;
   }
   bool isLoading=false;
-  PDFDocument document;
 
-  loadDocument() async {
-    document = await PDFDocument.fromURL('http://conorlastowka.com/book/CitationNeededBook-Sample.pdf');
-
-    // setState(() => _isLoading = false);
-  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -130,20 +124,18 @@ class _PatientDetailsState extends State<PatientDetails> {
                           setState(() {
                             isLoading=true;
                           });
-                          // await AllDtion();
-                          // await AllPrevDtion();
-                          // await MyPrevDtion();
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
-                          // );
+                          await AllDtion();
+                          await AllPrevDtion();
+                          await MyPrevDtion();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
+                          );
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(builder: (context) => MyApp1()),
                           // );
-                          showDialog(context: context,
-                          builder: (ctx) => AlertDialog(content: loadDocument(),)
-                          );
+
                         },
                         child: Container(
                           height: 60,

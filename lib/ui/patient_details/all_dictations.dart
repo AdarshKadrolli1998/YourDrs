@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
+import 'package:flutter/rendering.dart';
 
 
 
@@ -47,28 +48,33 @@ class _MyAppState extends State<MyApp1> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        // drawer: Drawer(
-        //   child: Column(
-        //     children: <Widget>[
-        //       SizedBox(height: 36),
-        //       ListTile(
-        //         title: Text('Load from URL'),
-        //         onTap: () {
-        //           changePDF(2);
-        //         },
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        body: Center(
-          child: _isLoading
-              ? Center(child: CircularProgressIndicator())
-              : PDFViewer(
-            document: document,
-            zoomSteps: 1,
+    return SafeArea(
+      child: Scaffold(
+          // drawer: Drawer(
+          //   child: Column(
+          //     children: <Widget>[
+          //       SizedBox(height: 36),
+          //       ListTile(
+          //         title: Text('Load from URL'),
+          //         onTap: () {
+          //           changePDF(2);
+          //         },
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          body: Center(
+            child: _isLoading
+                ? Center(child: CircularProgressIndicator())
+                : PDFViewer(
+              showNavigation: false,
+              showPicker: false,
+              scrollDirection: Axis.vertical,
+              document: document,
+              zoomSteps: 1,
+            ),
           ),
-        ),
+      ),
     );
   }
 }

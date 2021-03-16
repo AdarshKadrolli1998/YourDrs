@@ -8,7 +8,7 @@ class SaveDictationsAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: AlertDialog(
-        title: Row(
+        content: Row(
           children: [
             Expanded(child: Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: clr),textAlign: TextAlign.center,)),
           ],

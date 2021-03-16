@@ -4,6 +4,7 @@ import 'package:YOURDRS_FlutterAPP/ui/patient_details/audio_dictation.dart';
 import 'package:YOURDRS_FlutterAPP/widget/buttons/dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class MicButton extends StatefulWidget {
