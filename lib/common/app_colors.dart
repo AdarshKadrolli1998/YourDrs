@@ -25,6 +25,7 @@ class CustomizedColors {
   static const deleteIconColor = Color.fromRGBO(230, 27, 35, 1);
   static const saveLaterColor = Color.fromRGBO(30, 82, 163, 1);
   static const switchButtonColor = Color.fromRGBO(30, 82, 163, 1);
+  static const switchButtonTrackColor = Color.fromRGBO(92, 136, 217, 1);
   static const cloudIconColor = Color.fromRGBO(30, 82, 163, 1);
   static const circleAvatarColor = Color.fromRGBO(30, 82, 163, 1);
   static final waveBGColor = Colors.lightBlue[50];

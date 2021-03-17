@@ -20,6 +20,7 @@ class _DictationsListState extends State<DictationsList> {
   }
   loadDocument() async {
     document = await PDFDocument.fromURL('http://conorlastowka.com/book/CitationNeededBook-Sample.pdf');
+
   }
   @override
   Widget build(BuildContext context) {
@@ -85,15 +86,18 @@ class _DictationsListState extends State<DictationsList> {
                           onPressed: () {
                             showDialog(context: context,
                                 builder: (ctx) => AlertDialog(
-                                  insetPadding: EdgeInsets.symmetric( vertical: 70),
+                                  insetPadding: EdgeInsets.symmetric( vertical: 70, horizontal: 10),
                                   contentPadding: EdgeInsets.zero,
-                                  content: PDFViewer(
-                                  showNavigation: false,
-                                  showPicker: false,
-                                  scrollDirection: Axis.vertical,
-                                  document: document,
-                                  zoomSteps: 1,
-                                ),
+                                  content: Container(
+                                    width: width * 80,
+                                    child: PDFViewer(
+                                    showNavigation: false,
+                                    showPicker: false,
+                                    scrollDirection: Axis.vertical,
+                                    document: document,
+                                    zoomSteps: 1,
+                                    ),
+                                  ),
                                   actions: [
                                     FlatButton(
                                       child: Text('Close'),

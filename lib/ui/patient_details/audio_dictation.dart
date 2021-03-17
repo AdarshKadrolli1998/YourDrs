@@ -7,7 +7,6 @@ import 'package:YOURDRS_FlutterAPP/network/model/dictation/post_dictations_model
 import 'package:YOURDRS_FlutterAPP/network/services/dictation/post_dictations_service.dart';
 import 'package:YOURDRS_FlutterAPP/ui/patient_details/random_waves.dart';
 import 'package:YOURDRS_FlutterAPP/widget/save_dictations_alert.dart';
-import 'package:audio_wave/audio_wave.dart';
 import 'package:file/local.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
@@ -106,9 +105,10 @@ class _AudioDictationState extends State<AudioDictation> {
                             Text("${_printDuration(_current?.duration)}"),
                             FlatButton(
                                 onPressed: () async {
-                                  /// bloc provider for save record event
-                                  BlocProvider.of<AudioDictationBloc>(context)
-                                      .add(StopRecord());
+                                  if (mounted) {
+                                    /// bloc provider for save record event
+                                    BlocProvider.of<AudioDictationBloc>(context).add(StopRecord());
+                                  }
                                   Fluttertoast.showToast(
                                       msg: "Recording Saved",
                                       toastLength: Toast.LENGTH_SHORT,
@@ -160,13 +160,13 @@ class _AudioDictationState extends State<AudioDictation> {
                                   switch (_currentStatus) {
                                     case RecordingStatus.Initialized:
                                       {
-                                        /// bloc provider for start record event
-                                        BlocProvider.of<AudioDictationBloc>(
-                                                context)
-                                            .add(StartRecord());
+                                        if (mounted) {
+                                          /// bloc provider for start record event
+                                          BlocProvider.of<AudioDictationBloc>(context).add(StartRecord());
+                                        }
                                         Fluttertoast.showToast(
                                             msg: "Recording Started",
-                                            toastLength: Toast.LENGTH_SHORT,
+                                            toastLength: Toast.LENGTH_LONG,
                                             gravity: ToastGravity.CENTER,
                                             timeInSecForIosWeb: 1,
                                             backgroundColor: CustomizedColors.toastColor,
@@ -177,10 +177,12 @@ class _AudioDictationState extends State<AudioDictation> {
                                       }
                                     case RecordingStatus.Recording:
                                       {
+                                      if (mounted) {
                                         /// bloc provider for pause record event
                                         BlocProvider.of<AudioDictationBloc>(
                                                 context)
                                             .add(PauseRecord());
+                                      }
                                         Fluttertoast.showToast(
                                             msg: "Recording Paused",
                                             toastLength: Toast.LENGTH_SHORT,
@@ -194,10 +196,12 @@ class _AudioDictationState extends State<AudioDictation> {
                                       }
                                     case RecordingStatus.Paused:
                                       {
+                                      if (mounted) {
                                         /// bloc provider for resume record event
                                         BlocProvider.of<AudioDictationBloc>(
-                                                context)
+                                            context)
                                             .add(ResumeRecord());
+                                      }
                                         Fluttertoast.showToast(
                                             msg: "Recording Resumed",
                                             toastLength: Toast.LENGTH_SHORT,
@@ -211,10 +215,12 @@ class _AudioDictationState extends State<AudioDictation> {
                                       }
                                     case RecordingStatus.Stopped:
                                       {
+                                      if (mounted) {
                                         /// bloc provider for init event
                                         BlocProvider.of<AudioDictationBloc>(
-                                                context)
+                                            context)
                                             .add(InitRecord());
+                                      }
                                         break;
                                       }
                                     default:
@@ -231,8 +237,11 @@ class _AudioDictationState extends State<AudioDictation> {
                             FlatButton(
                               padding: EdgeInsets.all(0),
                                 onPressed: () {
+                                if (mounted) {
+                                  /// bloc provider for save record event
                                   BlocProvider.of<AudioDictationBloc>(context)
                                       .add(StopRecord());
+                                }
                                   /// Upload audio popup screen
                                   showModalBottomSheet(
                                     context: context,
@@ -347,9 +356,10 @@ class _AudioDictationState extends State<AudioDictation> {
                                   size: 45,
                                 ),
                                 onTap: () {
-                                  /// bloc provider for delete record event
-                                  BlocProvider.of<AudioDictationBloc>(context)
-                                      .add(DeleteRecord());
+                                  if (mounted) {
+                                    /// bloc provider for delete record event
+                                    BlocProvider.of<AudioDictationBloc>(context).add(DeleteRecord());
+                                  }
                                   Fluttertoast.showToast(
                                       msg: "Recording Deleted",
                                       toastLength: Toast.LENGTH_SHORT,

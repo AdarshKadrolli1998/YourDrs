@@ -1,11 +1,14 @@
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
+import 'package:YOURDRS_FlutterAPP/ui/patient_details/all_dictations.dart';
 import 'package:YOURDRS_FlutterAPP/ui/patient_details/dictation_type.dart';
 import 'package:YOURDRS_FlutterAPP/widget/buttons/mic_button.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:YOURDRS_FlutterAPP/network/model/dictation/dictations_model.dart';
 import 'package:YOURDRS_FlutterAPP/network/services/dictation/dictation_services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PatientDetails extends StatefulWidget {
   @override
@@ -107,8 +110,8 @@ class _PatientDetailsState extends State<PatientDetails> {
                             print(isSwitched);
                           });
                         },
-                        activeTrackColor: Colors.lightBlue[100],
-                        activeColor: Colors.blue,
+                        activeTrackColor: CustomizedColors.switchButtonTrackColor,
+                        activeColor: CustomizedColors.switchButtonColor,
                         inactiveThumbColor: CustomizedColors.switchButtonColor,
                       ),
                     ],
@@ -124,18 +127,34 @@ class _PatientDetailsState extends State<PatientDetails> {
                           setState(() {
                             isLoading=true;
                           });
-                          await AllDtion();
-                          await AllPrevDtion();
-                          await MyPrevDtion();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
-                          );
+                          Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
+                            if (result == ConnectivityResult.mobile ||
+                                result == ConnectivityResult.wifi) {
+                              await AllDtion();
+                              await AllPrevDtion();
+                              await MyPrevDtion();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
+                              );
+                            } else {
+                              print("else");
+                              Fluttertoast.showToast(
+                                  msg: "No Internet",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: CustomizedColors.toastColor,
+                                  textColor: CustomizedColors.textColor,
+                                  fontSize: 16.0
+                              );
+                            }
+                          });
+
                           // Navigator.push(
                           //   context,
-                          //   MaterialPageRoute(builder: (context) => MyApp1()),
+                          //   MaterialPageRoute(builder: (context) => MyHomePage()),
                           // );
-
                         },
                         child: Container(
                           height: 60,

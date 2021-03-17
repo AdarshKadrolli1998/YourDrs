@@ -40,13 +40,15 @@ class AudioDictationBloc extends Bloc<AudioDictationEvent, AudioDictationState> 
     else if (event is StopRecord) {
       yield* _stop();
 
-      print('path: ${state.current.path}');
-      List<int> fileBytes = await File(state.current.path).readAsBytes();
+      print('path: ${state.current?.path}');
+      if(state.current?.path != null){
+        List<int> fileBytes = await File(state.current.path).readAsBytes();
 
-      String base64String = base64Encode(fileBytes);
-      final fileString = 'data:audio/mp4;base64,$base64String';
-      print(fileString.toString());
-      print('file length: ${fileString.length}');
+        String base64String = base64Encode(fileBytes);
+        final fileString = 'data:audio/mp4;base64,$base64String';
+        print(fileString.toString());
+        print('file length: ${fileString.length}');
+      }
       yield* _init();
     }
     else if (event is DeleteRecord) {
