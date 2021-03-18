@@ -127,34 +127,27 @@ class _PatientDetailsState extends State<PatientDetails> {
                           setState(() {
                             isLoading=true;
                           });
-                          Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
-                            if (result == ConnectivityResult.mobile ||
-                                result == ConnectivityResult.wifi) {
-                              await AllDtion();
-                              await AllPrevDtion();
-                              await MyPrevDtion();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
-                              );
-                            } else {
-                              print("else");
-                              Fluttertoast.showToast(
-                                  msg: "No Internet",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: CustomizedColors.toastColor,
-                                  textColor: CustomizedColors.textColor,
-                                  fontSize: 16.0
-                              );
-                            }
-                          });
+                              // await AllDtion();
+                              // await AllPrevDtion();
+                              // await MyPrevDtion();
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
+                              // );
+                              // // Fluttertoast.showToast(
+                              // //     msg: "No Internet",
+                              // //     toastLength: Toast.LENGTH_SHORT,
+                              // //     gravity: ToastGravity.CENTER,
+                              // //     timeInSecForIosWeb: 1,
+                              // //     backgroundColor: CustomizedColors.toastColor,
+                              // //     textColor: CustomizedColors.textColor,
+                              // //     fontSize: 16.0
+                              // // );
 
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => MyHomePage()),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyApp1()),
+                          );
                         },
                         child: Container(
                           height: 60,
