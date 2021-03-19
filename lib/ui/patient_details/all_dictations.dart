@@ -116,8 +116,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final String _fileUrl = "http://conorlastowka.com/book/CitationNeededBook-Sample.pdf";
-  final String _fileName = "DSCF0277.pdf";
+  final String _fileUrl = "https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.doc";
+  final String _fileName = "sample3.doc";
   final Dio _dio = Dio();
 
   String _progress = "-";
