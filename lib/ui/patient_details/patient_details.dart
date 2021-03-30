@@ -121,33 +121,35 @@ class _PatientDetailsState extends State<PatientDetails> {
                     children: [
                       /// calling the mic button widget from widget folder
                       MicButton(),
+                      // ignore: deprecated_member_use
                       FlatButton(
                         padding: EdgeInsets.all(0),
                         onPressed: () async {
-                          setState(() {
-                            isLoading=true;
-                          });
-                              // await AllDtion();
-                              // await AllPrevDtion();
-                              // await MyPrevDtion();
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
+                          // setState(() {
+                          //   isLoading=true;
+                          // });
+                          //     await AllDtion();
+                          //     await AllPrevDtion();
+                          //     await MyPrevDtion();
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
+                          //     );
+                              // Fluttertoast.showToast(
+                              //     msg: "No Internet",
+                              //     toastLength: Toast.LENGTH_SHORT,
+                              //     gravity: ToastGravity.CENTER,
+                              //     timeInSecForIosWeb: 1,
+                              //     backgroundColor: CustomizedColors.toastColor,
+                              //     textColor: CustomizedColors.textColor,
+                              //     fontSize: 16.0
                               // );
-                              // // Fluttertoast.showToast(
-                              // //     msg: "No Internet",
-                              // //     toastLength: Toast.LENGTH_SHORT,
-                              // //     gravity: ToastGravity.CENTER,
-                              // //     timeInSecForIosWeb: 1,
-                              // //     backgroundColor: CustomizedColors.toastColor,
-                              // //     textColor: CustomizedColors.textColor,
-                              // //     fontSize: 16.0
-                              // // );
 
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => MyApp1()),
                           );
+
                         },
                         child: Container(
                           height: 60,
