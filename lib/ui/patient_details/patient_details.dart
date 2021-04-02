@@ -135,6 +135,9 @@ class _PatientDetailsState extends State<PatientDetails> {
                           //       context,
                           //       MaterialPageRoute(builder: (context) => DictationType(),settings: RouteSettings(arguments: {'allDictation':allDtion, 'allPreDictation': allPrevDtion, 'myPreDictation': myPrevDtion})),
                           //     );
+                          //     setState(() {
+                          //       isLoading=false;
+                          //     });
                               // Fluttertoast.showToast(
                               //     msg: "No Internet",
                               //     toastLength: Toast.LENGTH_SHORT,

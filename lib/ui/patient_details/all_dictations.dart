@@ -270,10 +270,56 @@
 // }
 //
 
+// import 'package:flutter/material.dart';
+// import 'dart:async';
+//
+// import 'package:open_file/open_file.dart';
+//
+//
+// class MyApp1 extends StatefulWidget {
+//   @override
+//   _MyAppState createState() => _MyAppState();
+// }
+//
+// class _MyAppState extends State<MyApp1> {
+//   var _openResult = 'Unknown';
+//   Future<void> openFile() async {
+//     final filePath = '/storage/emulated/0/Download/CitationNeededBook-Sample.pdf';
+//     final result = await OpenFile.open(filePath);
+//
+//     setState(() {
+//       _openResult = "type=${result.type}  message=${result.message}";
+//     });
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: const Text('Plugin example app'),
+//         ),
+//         body: Center(
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: <Widget>[
+//               Text('open result: $_openResult\n'),
+//               TextButton(
+//                 child: Text('Tap to open file'),
+//                 onPressed: openFile,
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:open_file/open_file.dart';
+import 'package:pdftron_flutter/pdftron_flutter.dart';
 
 
 class MyApp1 extends StatefulWidget {
@@ -282,14 +328,16 @@ class MyApp1 extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp1> {
-  var _openResult = 'Unknown';
-  Future<void> openFile() async {
-    final filePath = '/storage/emulated/0/Download/file-sample_100kB.doc';
-    final result = await OpenFile.open(filePath);
 
-    setState(() {
-      _openResult = "type=${result.type}  message=${result.message}";
-    });
+  @override
+  void initState() {
+    super.initState();
+
+  }
+
+  // Platform messages are asynchronous, so we initialize via an async method.
+  Future<void> initPlatformState() async {
+      PdftronFlutter.openDocument("/storage/emulated/0/Download/CitationNeededBook-Sample.pdf");
   }
 
   @override
@@ -297,20 +345,41 @@ class _MyAppState extends State<MyApp1> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('PDFTron flutter app'),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('open result: $_openResult\n'),
-              TextButton(
-                child: Text('Tap to open file'),
-                onPressed: openFile,
-              ),
-            ],
+        body: Container(
+          // ignore: deprecated_member_use
+          child: RaisedButton(
+            child: Text("Click"),
+            onPressed: (){
+              // showDialog(context: context,
+              //     builder: (ctx) => AlertDialog(
+              //       insetPadding: EdgeInsets.symmetric( vertical: 70, horizontal: 10),
+              //       contentPadding: EdgeInsets.zero,
+              //       content: Container(
+              //         width: 80,
+              //         child: PDFViewer(
+              //         showNavigation: false,
+              //         showPicker: false,
+              //         scrollDirection: Axis.vertical,
+              //         document: document,
+              //         zoomSteps: 1,
+              //         ),
+              //       ),
+              //       actions: [
+              //         FlatButton(
+              //           child: Text('Close'),
+              //           onPressed: () {
+              //             Navigator.of(context, rootNavigator: true).pop();
+              //           },
+              //         ),
+              //       ],
+              //     )
+              // );
+              initPlatformState();
+            },
           ),
-        ),
+        )
       ),
     );
   }

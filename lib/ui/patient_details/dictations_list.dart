@@ -36,20 +36,32 @@ class _DictationsListState extends State<DictationsList> {
     );
     var _base64 = base64Encode(response.bodyBytes);
     print("byte converted $_base64");
-    createPdf(_base64);
+    // createPdf(_base64);
+    _createFileFromString(_base64);
   }
-  createPdf(String base64) async {
-    var bytes = base64Decode(base64.replaceAll('\n', ''));
+  Future<String> _createFileFromString(String _base64) async {
+    final encodedStr = _base64;
+    Uint8List bytes = base64.decode(encodedStr);
     Directory appDocDirectory;
-    if (Platform.isIOS) {
-      appDocDirectory = await getApplicationDocumentsDirectory();
-    } else {
-      appDocDirectory = await getExternalStorageDirectory();
-    }
-    final file = File("${appDocDirectory.path}/example1.doc");
-    await file.writeAsBytes(bytes.buffer.asUint8List());
+      if (Platform.isIOS) {
+        appDocDirectory = await getApplicationDocumentsDirectory();
+      } else {
+        appDocDirectory = await getExternalStorageDirectory();
+      }
+    String dir = appDocDirectory.path;
+        File file = File(
+        "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".doc");
+    await file.writeAsBytes(bytes);
     print("file $file");
+    // return file.path;
   }
+  // createPdf(String base64) async {
+  //   var bytes = base64Decode(base64.replaceAll('\n', ''));
+  //
+  //   final file = File("${appDocDirectory.path}/example1.doc");
+  //   await file.writeAsBytes(bytes.buffer.asUint8List());
+  //   print("file $file");
+  // }
   @override
   Widget build(BuildContext context) {
     final List<DictationItem> args = ModalRoute.of(context).settings.arguments;

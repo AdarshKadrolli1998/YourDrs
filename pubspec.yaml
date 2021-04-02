@@ -53,7 +53,11 @@ dependencies:
   downloads_path_provider_28: ^0.1.0
   permission_handler:
   open_file: ^3.1.0
+  pdftron_flutter:
+    git:
+      url: git://github.com/PDFTron/pdftron-flutter.git
   flutter_filereader:
+  syncfusion_flutter_pdfviewer:
 
 dev_dependencies:
   flutter_test:
