@@ -58,6 +58,8 @@ dependencies:
       url: git://github.com/PDFTron/pdftron-flutter.git
   flutter_filereader:
   syncfusion_flutter_pdfviewer:
+  video_player: ^2.1.0
+  chewie:
 
 dev_dependencies:
   flutter_test:

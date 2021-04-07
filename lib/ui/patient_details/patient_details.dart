@@ -60,12 +60,12 @@ class _PatientDetailsState extends State<PatientDetails> {
               padding: EdgeInsets.all(25),
               child: Column(
                 children: [
-                      // isLoading?FractionalTranslation(
-                      //   translation: Offset(0.0,4.0),
-                      //   child: Center(
-                      //     child: CircularProgressIndicator(),
-                      //   ),
-                      // ):
+                      isLoading?FractionalTranslation(
+                        translation: Offset(0.0,4.0),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ):
                       Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -150,7 +150,7 @@ class _PatientDetailsState extends State<PatientDetails> {
 
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MyApp1()),
+                            MaterialPageRoute(builder: (context) => VideoApp()),
                           );
 
                         },
